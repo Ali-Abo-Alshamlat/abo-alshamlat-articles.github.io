@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" href="../../css/Font.css">
+        <link rel="stylesheet" href="css/code.css">
+        <link rel="stylesheet" href="../../css/prism.css">
+        <script src="../../js/prism.js"></script>
+        <script src="js/copycode.js"></script>
+        <script type="module"
+            src="https://unpkg.com/@deckdeckgo/highlight-code@latest/dist/deckdeckgo-highlight-code/deckdeckgo-highlight-code.esm.js"></script>
+    </head>
+    <body>
+
+        <pre>
+            
+            <div class="container">
+                <deckgo-highlight-code id="codeToCopy">
+                    <code slot="code">
+                        Nmap scan report for 10.10.11.239
+                        Host is up (0.18s latency).
+                        Not shown: 65503 closed tcp ports (reset), 29 filtered tcp ports (no-response)
+                        Some closed ports may be reported as filtered due to --defeat-rst-ratelimit
+                        PORT     STATE SERVICE VERSION
+                        22/tcp   open  ssh     OpenSSH 8.9p1 Ubuntu 3ubuntu0.4 (Ubuntu Linux; protocol 2.0)
+                        | ssh-hostkey: 
+                        |   256 96:07:1c:c6:77:3e:07:a0:cc:6f:24:19:74:4d:57:0b (ECDSA)
+                        |_  256 0b:a4:c0:cf:e2:3b:95:ae:f6:f5:df:7d:0c:88:d6:ce (ED25519)
+                        80/tcp   open  http    Apache httpd 2.4.52
+                        |_http-title: Did not follow redirect to http://codify.htb/
+                        |_http-server-header: Apache/2.4.52 (Ubuntu)
+                        3000/tcp open  http    Node.js Express framework
+                        |_http-title: Codify
+                        Service Info: Host: codify.htb; OS: Linux; CPE: cpe:/o:linux:linux_kernel
+                    </code></deckgo-highlight-code>
+                <button id="copyButton">Copy</button>
+            </div>
+
+            From the NMAP scan, ports 80, 22 and 3000 were discoverable. So I
+            proceeded to go to the website
+
+            <img src="/public/images/Codify/Codify-1.png"/>
+
+            <img src="/public/images/Codify/Codify-1-1.png"/>
+
+            Looking for how code could be injected, I found that this page uses the vm2
+            library, which I found the following exploit for:
+
+            After searching for a while, I found the following interesting file tickets.db.
+
+            <img src="/public/images/Codify/Codify-2.png"/>
+
+            Where I found the following username and password in the bcrypt hash
+
+            <img src="/public/images/Codify/Codify-3.png"/>
+
+            Once having the password in hash format, we proceed to crack it using John
+            the Ripper. Having the password, we can then connect to the user Joshua
+            and get the user flag just navigate directories and cat out the user.txt
+
+            <img src="/public/images/Codify/Codify-4.png"/>
+
+            To obtain root status, I found the following script in the path
+            <b>
+                /opt/scripts/mysql-backup.sh
+            </b>
+
+            <img src="/public/images/Codify/Codify-5.png"/>
+
+            <img src="/public/images/Codify/Codify-6.png"/>
+
+            Which allows us to endlessly test any password, letting us create a script that
+            tries all letters and numbers until it finds the correct one.
+
+            Once we have the correct password, we log in as root and can access the root flag.
+
+            <img src="/public/images/Codify/Codify-7.png"/>
+
+            You have now solved Codify (Easy) CTF — HackTheBox
+
+        </pre>
+    </body>

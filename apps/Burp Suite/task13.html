@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" href="../../css/Font.css">
+        <link rel="stylesheet" href="css/code.css">
+    </head>
+    <body>
+        <pre>
+        Notes
+
+        I started my review of the website by taking a look and visit all the available
+        links and pages for http://10.10.54.47/.
+
+        <img src="/public/images/Burp Suite/task13-1.png"/>
+
+        I also noticed that the Submit Support Ticket and Contact pages allowed a
+        user to submit their personal information contact emails and phone
+        numbers and a message as well. What struck me as odd and concerning was
+        that these page endpoints were on a HTTP page instead of the more secure HTTPS, 
+        meaning there was no guarantee that connection and information being sent over is secure.
+
+        <img src="/public/images/Burp Suite/task13-2.png"/>
+
+        When I intercepted the request for accessing the /ticket/ endpoint, 
+        I noticed a weird request also getting intercepted that was a GET method 
+        and had a path of /5yjR2GLcoGoij2ZK, which struck me as very unusual 
+        endpoint and something to investigate.
+
+        <img src="/public/images/Burp Suite/task13-3.png"/>
+
+        On my browser, I took the endpoint and added it to the end of the 
+        IP address and was able to get the flag text message to answer 
+        the 1st following question on this task. I also looked within 
+        the Target tab and checked the Site map sub tab for this suspicious request 
+        being intercepted and I was also find the THM same flag 
+        I got returned to me in the response from the browser.
+
+        <img src="/public/images/Burp Suite/task13-4.png"/>
+
+        To find the typical severity of a Vulnerable JavaScript Dependency issue, 
+        I clicked the globe icon in the Issue definitions sub tab of the Target main 
+        tab to view a web page list of the list of issues for easy searching and used Ctrl+F 
+        to text search the issue and was able to easily find the severity of the issue and answer the question
+
+        <img src="/public/images/Burp Suite/task13-5.png"/>
+
+        <h2>
+            Task 13 Questions
+        </h2>
+
+        Take a look around the site on http://10.10.54.47/ -- 
+        we will be using this a lot throughout the module. Visit every page linked to from the homepage, 
+        then check your sitemap -- one endpoint should stand out as being very unusual!
+
+        Visit this in your browser (or use the “Response” section of the site map
+        entry for that endpoint)
+
+        What is the flag you receive?
+
+        <blockquote>
+            censored in screenshots above
+        </blockquote>
+
+        Look through the Issue Definitions list.
+
+        What is the typical severity of a Vulnerable JavaScript dependency?
+
+        <blockquote>
+            Low
+        </blockquote>
+    
+    </pre>
+    </body>

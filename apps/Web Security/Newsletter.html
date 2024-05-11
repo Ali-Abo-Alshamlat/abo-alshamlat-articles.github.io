@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" href="../../css/Font.css">
+        <link rel="stylesheet" href="css/folderview.css">
+        <script src="js/folderview.js"></script>
+    </head>
+    <body>
+        <pre>
+            the administrator put the backup file in the same root folder 
+            as the application, help us download this backup by retrieving the backup file name
+
+            let’s open the website
+
+            <img src="/public/images/Web Security/Newsletter/Newsletter-1.png"/>
+
+            As you can see there is a input box and we can use it to make Command
+            Injection Attack so first let’s test and try to put some inputs
+
+            <img src="/public/images/Web Security/Newsletter/Newsletter-2.png"/>
+
+            This input box just take emails so let’s insert a dummy mail like
+            test@mail.com
+
+            <img src="/public/images/Web Security/Newsletter/Newsletter-3.png"/>
+
+            Now we need to know what is the variable name or we can say the name of
+            the input and to know the name we need to use a tool to intercept the
+            requests and the best tool for that is <i>BurpSuit</i>
+
+            After running burpsuit and intercept the connection while we sending the
+            dummy mail we can see the request
+
+            <img src="/public/images/Web Security/Newsletter/Newsletter-4.png"/>
+
+            Now we have the input name and now we can send this request to the
+            repeater to edit the value and put our commands to send to the repeater you
+            can use CTRL + R or Right-Click and choose Send to Repeater
+
+            After we sent it to the repeater now we can edit the value and put our
+            commands for us we need to us “ls” to list directory
+
+            <img src="/public/images/Web Security/Newsletter/Newsletter-5.png"/>
+
+            The semicolon (;) will end the code block to start our commands and the (||)
+            to let the code know the start from (ls) and ignore the dummy mail in the
+            first after typing the command let’s send the request
+
+            <img src="/public/images/Web Security/Newsletter/Newsletter-6.png"/>
+
+            <img src="/public/images/Web Security/Newsletter/Newsletter-7.png"/>
+
+            Did you notice the difference ? the command has been executed and the
+            output from line 9 to 11…..in the challenge he was asking for the backup file
+            name as you can see in line 10 we have the backup file so now you can copy
+            the full name of the file and submit it.
+
+        </pre>
+
+        <h2><i>
+        hgdr64.backup.tar.gz    
+        </i></h2>
+    </body>
+</html>

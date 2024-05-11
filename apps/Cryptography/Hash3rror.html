@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" href="../../css/Font.css">
+        <link rel="stylesheet" href="css/code.css">
+        <script src="js/folderview.js"></script>
+    </head>
+    <body>
+        <pre>
+            we got this corrupted hash password from a Pcap file with a note (password = sha-1(hash-result)).
+
+            HASH:77be5d24ed2e3e590045e1d6o7e84i50d2799c19f48ede46804a8734e287df120f 
+
+            <a href="https://cybertalents.com/challenges/cryptography/hash3rror">Link</a>
+        </pre>
+        <blockquote>
+        First I used this website to get the length of Hash and i got that it’s 66 character.
+        </blockquote>
+        <img src="/public/images/Cryptography/Hash3rror/Hash3rror-1.png"/>
+        
+        <blockquote>
+            We know that it’s corrupted from description ,so it seems to be maybe 64 characters.
+        </blockquote>
+
+        <pre>
+            And because it’s (hexadecimal digits) [0:f] , 
+            by LOOKING at Hash we will notice that there is o and 
+            i which are not Hexa characters So remove them and we got 64x4=256 , 
+            o YUP it’s (SHA-256).
+            <b>No, wait don’t celebrate now</b>
+        </pre>
+
+        <blockquote>
+            Then I used website <a href="https://www.dcode.fr/sha256-has">https://www.dcode.fr/sha256-has</a> to decode SHA-256
+        </blockquote>
+
+        <img src="/public/images/Cryptography/Hash3rror/Hash3rror-2.png"/>
+        
+        <blockquote>
+            we got the <b>plaintext</b> { s3cr3tpassword }
+            But in challenge he asked us to get <b>Hash to password</b> using <b>“sha-1”</b>
+            (password = sha-1(hash-result))
+        </blockquote>
+
+        So I used <b>CyberChef</b> to get hash to my plaintext and
+
+        <b>we got and the flag.</b>
+
+        <img src="/public/images/Cryptography/Hash3rror/Hash3rror-3.png"/>
+
+
+        <h2>
+            <i>
+                83874343435092cb681c0d558a84bfeb389c32ed 
+            </i>
+        </h2>
+    </body>
+</html>

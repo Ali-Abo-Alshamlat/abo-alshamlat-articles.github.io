@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" href="../../css/Font.css">
+        <link rel="stylesheet" href="css/code.css">
+    </head>
+    <body>
+
+        <pre>
+            Notes
+
+            For configuring our web browser to redirect traffic on it to our proxy, I first
+            launched the Burp Proxy application on my VM to ensure the proxy service
+            is reachable. In my case, my Burp Suite Event log shows the IP Address and
+            port of my service.
+
+            <img src="/public/images/Burp Suite/task9-1.png"/>
+
+            Next, I opened the Firefox browser and looked for a button at the top right-
+            hand corner of my browser window,
+
+            I found an existing proxy profile already on my VM and clicked on the
+            options button to check what the existing proxy in FoxyProxy tool is
+            configured to.
+
+            <img src="/public/images/Burp Suite/task9-2.png"/>
+
+            I clicked with the following options clicked on the edit button or add button
+            icon if we don’t have a proxy connection profile listed.
+
+
+            <img src="/public/images/Burp Suite/task9-3.png"/>
+
+            I made sure the following settings were set up pointed at the proxy IP and
+            the port of my proxy service (in this case is the default value of
+            127.0.0.1:8080)
+
+            Title: can be whatever we want it to be, e.g. Burp
+            IP Address: 127.0.0.1
+            Port: 8080
+
+            <img src="/public/images/Burp Suite/task9-4.png"/>
+
+            Next, I selected the proxy titled Burp and the green check mark appeared
+            next to the name of the proxy connection and as well as the name of the
+            proxy appeared over the extension icon as seen below to indicate we a have a
+            proxy running,
+
+            <img src="/public/images/Burp Suite/task9-5.png"/>
+
+            I switched back to my open instance of Burp Suite and navigated to Proxy >
+            Intercept sub tab screen to make sure the message interception is on before
+            testing the proxy for catching requests. This is done by clicking the button
+            starting with Intercept and followed by “is off” or “is on” depending on if
+            intercept is turned off or on as per the screenshot below,
+
+            <img src="/public/images/Burp Suite/task9-7.png"/>
+
+            Once intercept is turned on, I attempted to access the homepage of the
+            machine we which in my case was http://10.10.54.47/. A mistake I made was
+            forgetting to click the start machine button from Task 1 while solving the
+            tasks; but I was able to go back and redo the tasks again when I realized this.
+
+            <img src="/public/images/Burp Suite/task9-8.png"/>
+
+            I found Firefox still loading while the proxy is working and my intercept
+            screen on Burp Suite is now populated with the headers corresponding to my
+            GET HTTP request to access the address of http://10.10.54.47/. This shows
+            that our request has been intercepted by the tool and we can choose to
+            forward or drop the request as seen in the below screenshot.
+
+            <img src="/public/images/Burp Suite/task9-9.png"/>
+
+            Furthermore, I was looking into how to intercept and modify the response of
+            a request. This took me a while to figure out what this option was and did
+            some research. I uncovered the answer and steps in this link and found that
+            I could either right click on the body of the request or click the actions
+            button; then to hover over Do intercept and to click Response to this request. I
+            was able to modify the body of response to whatever I liked and forward the
+            request and send it back to the browser.
+
+            <img src="/public/images/Burp Suite/task9-10.png"/>
+
+            <h1>
+                Task 9 Questions
+            </h1>
+
+            Read through the options in the right-click menu.
+
+            There is one particularly useful option that allows you to intercept and
+            modify the response to your request.
+
+            What is this option?
+
+            Note: The option is in a dropdown sub-menu.
+
+            <blockquote>
+                Response to this request
+            </blockquote>
+
+            [Bonus Question — Optional] Try installing FoxyProxy standard and have a
+            look at the pattern matching features.
+
+            <img src="/public/images/Burp Suite/task9-11.png"/>
+
+            <img src="/public/images/Burp Suite/task9-12.png"/>
+
+            <img src="/public/images/Burp Suite/task9-13.png"/>
+        </pre>
+    </body>

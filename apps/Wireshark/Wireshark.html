@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link rel="stylesheet" href="../../css/Font.css">
+    <link rel="stylesheet" href="css/code.css">
+</head>
+
+<body>
+
+    <pre>
+
+            Learn the basics of Wireshark and how to analyse protocols and PCAPs.
+
+            Link- <a href="https://tryhackme.com/room/wiresharkthebasics">https://tryhackme.com/room/wiresharkthebasics</a>
+
+            <h1>
+                Task 1: Introduction
+            </h1>
+
+            Which file is used to simulate the screenshots?
+
+            <h3>
+                Ans: http1.pcapng
+            </h3>
+
+            Which file is used to answer the questions
+
+            <h3>
+                Ans: Exercise.pcapng
+            </h3>
+
+            <h1>
+                Task 2: Tool Overview
+            </h1>
+
+            Use the “Exercise.pcapng” file to answer the questions.
+
+            Read the “capture file comments”.
+
+            What is the flag?
+
+            <h3>
+                Ans: TryHackMe_Wireshark_Demo
+            </h3>
+
+            Open the pcap file and open the capture file properties dialog 
+            on the bottom left-side of the status bar.
+
+            <img src="/public/images/Wireshark/Wireshark-1.png"/>
+
+            <img src="/public/images/Wireshark/Wireshark-2.png"/>
+
+            What is the total number of packets?
+
+            <h3>
+                Ans: 58620
+            </h3>
+
+            What is the SHA256 hash value of the capture file?
+
+            <h3>
+                Ans: f446de335565fb0b0ee5e5a3266703c778b2f3dfad7efeaeccb2da5641a6d6eb
+            </h3>
+
+            <img src="/public/images/Wireshark/Wireshark-3.png"/>
+
+            <h1>
+                Task 3: Packet Dissection
+            </h1>
+
+            Use the “Exercise.pcapng” file to answer the questions.
+
+            View packet number 38. Which markup language is used under the HTTP protocol?
+
+            <h3>
+                Ans: eXtensible Markup Language
+            </h3>
+
+            Press ctrl+g. That will open a dialog box to find specific packets, then ente
+            38 and click the button. We should be directed to packet 38.
+
+            <img src="/public/images/Wireshark/Wireshark-4.png"/>
+
+            Within the packet details pane, under the HTTP protocol is the Markup Language used.
+
+            <img src="/public/images/Wireshark/Wireshark-5.png"/>
+
+            What is the arrival date of the packet? (Answer format: Month/Day/Year)
+
+            <h3>
+                Ans: 05/13/2004
+            </h3>
+
+            Still on packet 38, expand the Frame and it will show the details specific to
+            the Physical layer of the OSI model.
+
+            <img src="/public/images/Wireshark/Wireshark-6.png"/>
+
+            What is the TTL value?
+
+            <h3>
+                Ans: 47
+            </h3>
+
+            The TTL value is found in Layer 3 of the OSI model, which is the Network
+            Layer. Expand the Internet Protocol within the packet details pane.
+
+            <img src="/public/images/Wireshark/Wireshark-7.png"/>
+
+            What is the TCP payload size?
+
+            <h3>
+                Ans: 424
+            </h3>
+
+            TCP details are found within the Transmission Control Protocol pane, which
+            is the 4th layer of the OSI model.
+
+            <img src="/public/images/Wireshark/Wireshark-8.png"/>
+
+            What is the e-tag value?
+
+            <h3>
+                Ans: 9a01a-4696–7e354b00
+            </h3>
+
+            This particular value is found in Hypertext Transfer Protocol pane, from the
+            Application protocol layer of the OSI model.
+
+            <img src="/public/images/Wireshark/Wireshark-9.png"/>
+
+            <h3>
+                Task 4: Packet Navigation
+            </h3>
+
+            Use the “Exercise.pcapng” file to answer the questions.
+
+            Search the “r4w” string in packet details. What is the name of artist 1?
+
+            <h3>
+                Ans: r4w8173
+            </h3>
+
+            Press ctrl+f to search for the string inside the packets.
+
+            <img src="/public/images/Wireshark/Wireshark-10.png"/>
+
+            Within the details pane is the name of artist 1.
+
+            <img src="/public/images/Wireshark/Wireshark-11.png"/>
+
+            Go to packet 12 and read the comments. What is the answer?
+
+            <h3>
+                Ans: 911cd574a42865a956ccde2d04495ebf
+            </h3>
+
+            Press ctrl+g and enter the packet number and we will be directed to that packet.
+
+            <img src="/public/images/Wireshark/Wireshark-12.png"/>
+
+            We see that there is a comment in the details pane but it is incomplete. To
+            read the full comment, we will go to Edit menu then select Packet Comment.
+
+            <img src="/public/images/Wireshark/Wireshark-13.png"/>
+
+            Upon reading the comment, we will go to packet 39765, look at the packet
+            details pane and export the packet bytes by right-clicking on the JPEG
+            section. As stated, this is another way of extracting data or objects from a
+            pcap file. I saved the JPEG file as “jpeg” in the Desktop directory.
+
+            <img src="/public/images/Wireshark/Wireshark-14.png"/>
+
+            <img src="/public/images/Wireshark/Wireshark-15.png"/>
+
+            Open a terminal and we will extract the MD5 hash value of the image.
+
+            <img src="/public/images/Wireshark/Wireshark-16.png"/>
+
+            There is a “.txt” file inside the capture file. Find the file and read it; 
+            what is the alien’s name?
+
+            <h3>
+                Ans: PACKETMASTER
+            </h3>
+
+            This is another method of exporting objects from a pcap file. Go to File
+            menu then select Export Objects and then HTTP (or whatever protocol that
+            may have been used to transfer objects). Save the “note.txt” file.
+
+            <img src="/public/images/Wireshark/Wireshark-17.png"/>
+
+            <img src="/public/images/Wireshark/Wireshark-18.png"/>
+
+            <img src="/public/images/Wireshark/Wireshark-19.png"/>
+
+            We can actually read the contents of the text file on the details pane but the
+            objective of this task is for us to learn how to export objects.
+
+            <img src="/public/images/Wireshark/Wireshark-20.png"/>
+
+            Open and read the contents of the file. We can use a text editor or terminal
+            to read the contents.
+
+            <img src="/public/images/Wireshark/Wireshark-21.png"/>
+
+            Look at the expert info section. What is the number of warnings?
+
+            <h3>
+                Ans: 1636
+            </h3>
+
+            We can either go to Analyze Menu then select Expert Information or at the
+            bottom left part of the status bar and click on the first image.
+
+            <img src="/public/images/Wireshark/Wireshark-22.png"/>
+
+            <img src="/public/images/Wireshark/Wireshark-23.png"/>
+
+            <h1>
+                Task 5: Packet Filtering
+            </h1>
+
+            Go to packet number 4. Right-click on the “Hypertext Transfer Protocol” and
+            apply it as a filter. Now, look at the filter pane. What is the filter query?
+
+            <h3>
+                Ans: http
+            </h3>
+
+            Press ctrl+g and enter packet number 4. Follow the instructions provided
+            then look at the Display filter of what filter has been applied.
+
+            <img src="/public/images/Wireshark/Wireshark-24.png"/>
+
+            <img src="/public/images/Wireshark/Wireshark-25.png"/>
+
+            What is the number of displayed packets?
+
+            <h3>
+                Ans: 1089
+            </h3>
+
+            It is displayed at the bottom right-side of the status bar.
+
+            <img src="/public/images/Wireshark/Wireshark-26.png"/>
+
+            Go to packet number 33790 and follow the stream. What is the total number of artists?
+
+            <h3>
+                Ans: 3
+            </h3>
+
+            <img src="/public/images/Wireshark/Wireshark-27.png"/>
+
+            <img src="/public/images/Wireshark/Wireshark-28.png"/>
+
+            From the HTTP Stream we can search for the string “artist”.
+
+            <img src="/public/images/Wireshark/Wireshark-29.png"/>
+
+            What is the name of the second artist?
+
+            <h3>
+                Ans: Blad3
+            </h3>
+
+            Modify the string to artist=2.
+
+            <img src="/public/images/Wireshark/Wireshark-30.png"/>
+
+            
+        </pre>
+</body>

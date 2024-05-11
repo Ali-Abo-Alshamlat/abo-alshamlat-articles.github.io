@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" href="../../css/Font.css">
+        <link rel="stylesheet" href="css/code.css">
+    </head>
+    <body>
+
+        <img src="/public/images/Benign/Benign-1.png"/>
+
+        Challenge Link : <a href="https://tryhackme.com/room/benign">https://tryhackme.com/room/benign</a>
+
+        Difficulty : Medium
+
+        Benign room on TryHackMe challenges us to analyze some Splunk logs, in
+        order to find the answers required. All needed logs are ingested with index
+        win_eventlogs. Let’s go!
+
+        <b>
+            ● How many logs are ingested from the month of March, 2022?
+        </b>
+
+        You need to go on the top right side of the panel, near the search button.
+        Click on the dropdown and choose Date Range, then select Since and look for
+        March 1st, then click Apply.
+
+        <img src="/public/images/Benign/Benign-2.png"/>
+
+        When you’re done, press the green magnifier button, and you will get the
+        total number of logs which correspond to this selection.
+
+        <img src="/public/images/Benign/Benign-3.png"/>
+
+        <b>
+            ● Imposter Alert: There seems to be an imposter account observed in the logs,
+            what is the name of that user?
+        </b>
+
+        We have to perform a sort of SELECT DISTINCT query in SQL, for username.
+        But adapted to Splunk. So, we could run the one below:
+
+        <code>
+            index=win_eventlogs
+            | stats values(UserName)
+        </code>
+
+        We will get the following list:
+
+        <img src="/public/images/Benign/Benign-4.png"/>
+
+        By taking a close look at the beginning of the list, we notice an “i” char was
+        replaced with “1”. We got our impostor!
+
+        <code>
+            Answer: Amel1a
+        </code>
+
+        <b>
+            ● Which user from the HR department was observed to be running scheduled tasks?
+        </b>
+
+        Scheduled tasks are executed using schtasks.exe, so, we must filter ProcessName
+        field based on this value. Then, create a similar query as the one above.
+
+        <code>
+            index=win_eventlogs ProcessName=*schtasks.exe*
+            | stats values(UserName)
+        </code>
+
+        We obtain this result:
+
+        <img src="/public/images/Benign/Benign-5.png"/>
+
+        From the description of the challenge, we know James, Moin and Katrina are
+        part of the IT department. With this piece of information, the answer to our
+        question is obvious.
+
+        <code>
+            Answer: Chris.fort
+        </code>
+
+        <b>
+            ● Which user from the HR department executed a system process (LOLBIN) to
+            download a payload from a file-sharing host.
+        </b>
+
+        You can verify the site link provided in the hint for this question, lolbas-
+        project.github.io, and check which tools can be used for downloading.
+
+        Certutil.exe is a program included in Windows, so, it should be found on
+        each machine using this OS. By changing the values of ProcessName field to
+        certutil.exe, we will find a unique log and our answer is there.
+
+        <code>
+            index=win_eventlogs ProcessName=*certutil.exe*
+        </code>
+
+        <img src="/public/images/Benign/Benign-6.png"/>
+
+        <code>
+            Answer: haroon
+        </code>
+
+        Based on this single log, we are going to discover the answers to the
+        remaining questions.
+
+        <b>
+            ● To bypass the security controls, which system process (lolbin) was used to
+            download a payload from the internet?
+        </b>
+
+        <img src="/public/images/Benign/Benign-7.png"/>
+
+        Since certutil.exe is already included in Windows, it was used to bypass the security controls.
+
+        <code>
+            Answer: certutil.exe
+        </code>
+
+        <b>
+            ● What was the date that this binary was executed by the infected host? format
+            (YYYY-MM-DD)
+        </b>
+
+        Checking EventTime field will provide the solution.
+
+        <img src="/public/images/Benign/Benign-8.png"/>
+
+        <code>
+            Answer: 2022-03-04
+        </code>
+
+        <b>
+            ● Which third-party site was accessed to download the malicious payload?
+        </b>
+
+        The answer is visible in the CommandLine area.
+
+        <img src="/public/images/Benign/Benign-9.png"/>
+
+        <code>
+            Answer: controlc.com
+        </code>
+
+        <b>
+            ● What is the name of the file that was saved on the host machine from the C2
+            server during the post-exploitation phase?
+        </b>
+
+        Same line is the one of interest.
+
+        <img src="/public/images/Benign/Benign-10.png"/>
+
+        <code>
+            Answer: benign.exe
+        </code>
+
+        <b>
+            ● The suspicious file downloaded from the C2 server contained malicious
+            content with the pattern THM{……….}; what is that pattern?
+        </b>
+
+        When we access the full link found in CommandLine, we will get a page
+        where we have the answer.
+
+        <img src="/public/images/Benign/Benign-11.png"/>
+
+        <code>
+            Answer: THM{KJ&*H^B0}
+        </code>
+
+        <b>
+            ● What is the URL that the infected host connected to?
+        </b>
+
+        Again, CommandLine record has the solution.
+
+        <img src="/public/images/Benign/Benign-12.png"/>
+
+        <code>
+            Answer: https://controlc.com/548ab556
+        </code>
+
+    </body>

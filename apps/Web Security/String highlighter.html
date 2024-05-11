@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" href="../../css/Font.css">
+        <link rel="stylesheet" href="css/folderview.css">
+        <script src="js/folderview.js"></script>
+    </head>
+    <body>
+        <pre>
+            Challenge name: String Highlighter
+            Challenge link: <a href="https://cybertalents.com/challenges/web/string-highlighter">https://cybertalents.com/challenges/web/string-highlighter</a>
+            Required: We need to get to the flag and it is hidden somewhere in the clue
+
+            <b>The beginning of the challenge</b>
+
+            Well, start this challenge and open the link for it
+
+            It is a web application that prints the content of what the user writes in the
+            HTML textarea and selects any color he wants and when he clicks on the
+            new Highlighter it is displayed under the word Preview
+
+            <img src="/public/images/Web Security/String highlighter/String highlighter-1.png"/>
+
+            <img src="/public/images/Web Security/String highlighter/String highlighter-2.png"/>
+
+            Let’s take a look at the source code, there is nothing important, and also the
+            js code that is there
+
+            The provided code is a JavaScript script that handles a click event on an element
+            with the class “sub”. When the click event occurs, it retrieves the selected value
+            from a dropdown list and the text entered in a textarea. It then combines the color
+            and text values into a string called “stringToParse” in the format “color:text”.
+
+            After that, it sends a POST request to the current URL (empty string passed as the
+            URL) with the data parameter “stp” set to the “stringToParse” value. The response
+            from the server is handled in the callback function, which sets the HTML content
+            of an element with the class “preview” to the received data.
+
+            <img src="/public/images/Web Security/String highlighter/String highlighter-14.png"/>
+
+            Well, let’s try some things, for example, can we add an html tag
+
+            <img src="/public/images/Web Security/String highlighter/String highlighter-3.png"/>
+
+            This is good. No Filtered. The site may be vulnerable to an XSS vulnerability
+            Let’s try
+
+            <img src="/public/images/Web Security/String highlighter/String highlighter-4.png"/>
+
+            This is good, but the problem is that we want to do RCE, but I made the
+            converter to do RCE via XSS, but it did not work
+            If you tried and it worked for you, show your method and share it with us
+
+            Let’s try some other things
+            We want to know what technologies the site works with
+
+            <img src="/public/images/Web Security/String highlighter/String highlighter-5.png"/>
+            
+            Well this is good. The site works with js, html, css, php
+            How do you know that it works with php? I tried to enter the index.php page
+            and it returned the home page
+
+            I tried some php tag but this response was (internal server error)
+
+            <img src="/public/images/Web Security/String highlighter/String highlighter-6.png"/>
+            <img src="/public/images/Web Security/String highlighter/String highlighter-7.png"/>
+
+            Let’s work on the index page, since this page is .php, meaning that the php
+            tag is included, so let’s try without it.
+
+            Now it prints nothing if that works
+
+            <img src="/public/images/Web Security/String highlighter/String highlighter-8.png"/>
+
+            Let’s execute some commands on the system
+
+            <img src="/public/images/Web Security/String highlighter/String highlighter-9.png"/>
+
+            Looks like there is a php code check I did research on how to bypass this
+
+            <img src="/public/images/Web Security/String highlighter/String highlighter-10.png"/>
+            <img src="/public/images/Web Security/String highlighter/String highlighter-11.png"/>
+
+            I found some interesting stuff on this blog
+        </pre>
+            <a href="https://book.hacktricks.xyz/network-services-pentesting/pentesting-web/php-tricks-esp/php-useful-functions-disable_functions-open_basedir-bypass">
+                https://book.hacktricks.xyz/network-services-pentesting/pentesting-web/
+                php-tricks-esp/php-useful-functions-disable_functions-open_basedir-bypass
+            </a>
+            <pre>
+            I tried a few different commands until this worked
+            Don’t forget to look at the blog
+
+            `` (backticks) — Same as shell_exec()
+        </pre>
+            <code>echo `whoami`;</code>
+
+            
+        
+
+        <h2><i>
+        coolcookie112   
+        </i></h2>
+    </body>
+</html>

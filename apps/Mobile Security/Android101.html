@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" href="../../css/Font.css">
+        <link rel="stylesheet" href="css/code.css">
+        <link rel="stylesheet" href="../../css/prism.css">
+        <script src="../../js/prism.js"></script>
+        <script src="js/copycode.js"></script>
+        <script type="module"
+            src="https://unpkg.com/@deckdeckgo/highlight-code@latest/dist/deckdeckgo-highlight-code/deckdeckgo-highlight-code.esm.js"></script>
+    </head>
+    <body>
+        <pre>
+
+            It is password protected, can you crack it ???
+
+            Link Icon Link:
+            
+            <a href="https://s3-eu-west-1.amazonaws.com/hubchallenges/Reverse/android101.apk">https://s3-eu-west-1.amazonaws.com/hubchallenges/Reverse/android101.apk</a>
+        </pre>
+            We're given an apk file. Let's decompile and look through the sources folder contents. 
+            A certain file Main2Activity.java catches our sight. 
+            Here, the function Validate takes a string as 
+            a parameter, manipulates it and compares it a character array. 
+            If matches, shows the toast Correct.
+
+            <div class="container">
+                <deckgo-highlight-code id="codeToCopy">
+                    <code slot="code">
+                public String Validate(String f) {
+                    StringBuilder str = new StringBuilder(f);
+                    for (int i = 0; i < str.length(); i++) {
+                        for (int j = i; j < str.length() - 1; j++) {
+                            char t = str.charAt(j);
+                            str.setCharAt(j, str.charAt(j + 1));
+                            str.setCharAt(j + 1, t);
+                        }
+                    }
+                    if (str.toString().equals(String.valueOf(new char[]{'l', 'g', 'c', 'n', 'y', 'u', 'r', 'V', 'r', '3', '4', 'd', '0', 'D', 'f', '{', '_', '_', '3', '_', 'R', '}', '4', '3', 'n', 'a', '5', '0', '1'}))) {
+                        Toast.makeText(getApplicationContext(), String.valueOf(new char[]{'C', 'o', 'r', 'r', 'e', 'c', 't'}), 1).show();
+                    }
+                    return "" + str.toString();
+                }
+            </code></deckgo-highlight-code>
+            <button id="copyButton">Copy</button>
+            </div>
+        </pre>
+        &nbsp;
+        <pre>
+            Let's get to work. Let's concatenate the manipulated string from the character set. 
+            We get <i>lgcnyurVr34d0Df{__3_R}43na501</i>
+
+            Now, we've to reverse what was done to this string. By analyzing the loops, 
+            we can write a reverse loop as below:
+        </pre>
+            <div class="container">
+                <deckgo-highlight-code id="codeToCopy">
+                    <code slot="code">
+                for (int i = str.length() - 1; i >= 0; i--) {
+                    for (int j = str.length() - 2; j >= i; j--) {
+                         char t = str.charAt(j);
+                         str.setCharAt(j, str.charAt(j + 1));
+                         str.setCharAt(j + 1, t);
+                    }
+             }             
+            </code></deckgo-highlight-code>
+            <button id="copyButton">Copy</button>
+            </div>
+
+            Now, we can find the flag! The flag
+        </pre>
+        <h2><i>
+        flag{c4n_y0u_r3V3r53_4ndR01D}  
+        </i></h2>
+    </body>
+</html>

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" href="../../css/Font.css">
+        <link rel="stylesheet" href="css/code.css">
+    </head>
+    <body>
+        <pre>
+            <h1>
+                Vulnerable Web Application 2
+            </h1>
+    
+            For this task, navigate to the machine IP and then to the contact page. Now,
+            fill out your info and put the message as<script>alert("Simple XSS")
+            </script> :
+
+            <img src="/public/images/Xss/task7-1.png"/>
+
+            Now, click on ‘Send Message’. Now, go to the login page and log in as
+            receptionist. The credentials are given in the description itself.
+
+            Username: admin
+
+            Password: admin123
+
+            <img src="/public/images/Xss/task7-2.png"/>
+
+            <img src="/public/images/Xss/task7-3.png"/>
+
+            This alert will be prompted on your screen. This proves that this is an
+            example of Stored XSS.
+
+            Ques 1: What type of vulnerability is it?
+
+            <h2>
+                Answer: Stored XSS
+            </h2>
+
+            Now, repeat the same steps again but with a different message this time
+            (<script>alert(document.cookie)</script>). You will see a different alert
+            popping up.
+
+            <img src="/public/images/Xss/task7-4.png"/>
+
+            This is our key.
+            Ques 2: Go to the contact page and submit the following message
+            <script>alert(document.cookie)</script>. Next, log in as the Receptionist.
+            What is the name of the key from the third displayed key-value pair?
+
+            <h2>
+                Answer: PHPSESSID
+            </h2>
+
+            
+        </pre>
+    </body>

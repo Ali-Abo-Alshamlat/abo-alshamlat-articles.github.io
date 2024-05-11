@@ -1,0 +1,140 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #333333;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+    text-align: center;
+    margin-inline: auto;
+    align-items: center;
+    --app-cursor-default: url("/icons/Suru/Suru/48x48/devices/normal-select.svg");
+    cursor: var(--app-cursor-default),auto;
+  }
+
+p{
+    color: aliceblue;
+}
+h3{
+    color: rgb(10, 248, 109);
+}
+
+.container {
+    padding: 20px;
+    border-radius: 5px;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    width: 890px;
+  }
+  
+  
+  code {
+	font-family: Consolas, Monaco, 'Courier New', Courier, monospace;
+  }
+
+  button {
+    margin-top: 10px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 10px 0 10px 0;
+    --app-cursor-default: url("/icons/Suru/Suru/48x48/devices/normal-select.svg");
+    cursor: var(--app-cursor-default),auto;
+    transition: background-color 0.3s ease;
+    position: absolute;
+    right: 0;
+  }
+  
+  button:hover {
+	background-color: #45a049;
+  }
+
+  pre{
+    color: rgb(254, 254, 254);
+    font-size: 15px;
+    font-family: 'Waiting for the Sunrise', cursive; 
+
+}
+
+  blockquote{
+    box-shadow: inset 3px 0 0 0 #f026f0;
+  }
+
+  img{
+    width: 120px;
+    height: 120px;
+  }
+  .wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .centeredBox {
+    width: 100%;
+    text-align: center;
+  }
+  
+
+  #typed{
+    font-family: 'Waiting for the Sunrise', cursive; 
+    color: white;
+  }
+  .typed-cursor {
+    font-weight: 900;
+    box-shadow: 0px 1px;
+    font-size: 1.3em;
+  }
+
+  h3{
+    font-family: 'Waiting for the Sunrise', cursive; 
+    height: 5px;;
+  }
+
+  span{
+    color: #db2777;
+  }
+
+  .timeline {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .circle {
+    width: 13px;
+    height: 13px;
+    background: #C4C4C4;
+    border-radius: 50%;
+  }
+  
+  .dashed {
+    width: 250px;
+    border: 1px solid #C4C4C4;
+  }
+
+  .info{
+    text-align: left;
+  }
+
+  .edu{
+    display: flex;
+    align-items: flex-end;
+  }
+
+  .img-edu{
+    width: 98px;
+    height: 98px;
+  }
+
+  .edu-1{
+    text-align: initial;
+  }
+
+  .edu-2{
+    height: 10px;
+  }

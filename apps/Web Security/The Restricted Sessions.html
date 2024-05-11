@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" href="../../css/Font.css">
+        <link rel="stylesheet" href="css/folderview.css">
+        <script src="js/folderview.js"></script>
+    </head>
+    <body>
+        <p>Flag is restricted to logged users only , can you be one of them.</p>
+        <p>By visiting the website, I got this!</p>
+        <img src="/public/images/CyberSecurity Beginner Career/The Restricted Sessions/The Restricted Sessions-1.png"/>
+        <p>
+            So this is a hint that we have to deal with cookies, 
+            I visited the source code and I got this great information
+        </p>
+        <img src="/public/images/CyberSecurity Beginner Career/The Restricted Sessions/The Restricted Sessions-2.png"/>
+        <p>so the source code gave me that</p>
+        <p>the cookie name: PHPSESSID</p>
+        <p>value: [^;]+)/</p>
+        <p>just putting these in the cookie’ browser (web developer extension)</p>
+        <img src="/public/images/CyberSecurity Beginner Career/The Restricted Sessions/The Restricted Sessions-3.png"/>
+        <p>we got this</p>
+        <img src="/public/images/CyberSecurity Beginner Career/The Restricted Sessions/The Restricted Sessions-4.png"/>
+        <p>Go to the directory gave me these three session’s values</p>
+        <img src="/public/images/CyberSecurity Beginner Career/The Restricted Sessions/The Restricted Sessions-5.png"/>
+        <p>I tried to test them as a value and I got this</p>
+        <img src="/public/images/CyberSecurity Beginner Career/The Restricted Sessions/The Restricted Sessions-6.png"/>
+        <p>
+            So I went to the burp suite and try to send the cookie in the body, 
+            the result of this gave me the valid user name which is mary
+        </p>
+        <p>Sending the new cookie’s user & value gave me the flag</p>
+        <img src="/public/images/CyberSecurity Beginner Career/The Restricted Sessions/The Restricted Sessions-7.png"/>
+
+        <h2><i>
+        sessionareawesomebutifitsecure
+        </i></h2>
+    </body>
+</html>

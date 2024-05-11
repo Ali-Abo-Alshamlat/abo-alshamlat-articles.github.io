@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" href="../../css/Font.css">
+        <link rel="stylesheet" href="css/code.css">
+    </head>
+    <body>
+        <pre>
+
+            <h1>
+            Vulnerable and Outdated Components — Lab
+            </h1>
+
+            This task is about exploiting outdated components. 
+            Open Firefox then head to the given site. 
+            Looking at the site we learn that this is a bookstore app.
+            Go to the Exploit database site and search for the keywords “bookstore”.
+
+            <img src="/public/images/OWASP Top 10–2021/task15-1.png"/>
+
+            <img src="/public/images/OWASP Top 10–2021/task15-2.png"/>
+
+            Download the exploit [47887.py] and use the command:
+
+            python3 47887.py [insert URL] and type “y” to launch the shell. Use the
+            command [cat /opt/flag.txt] to reveal the flag. The key to this is you already
+            know what file you are looking for /opt/flag.txt and we know that to open it
+            we have to use the command [cat].
+
+            <img src="/public/images/OWASP Top 10–2021/task15-3.png"/>
+
+            What is the content of the /opt/flag.txt file?
+            Hint: You know it’s a bookstore application. You should check for recent
+            unauthenticated bookstore apps RCEs.
+
+            Answer Format: ***{*********************}
+
+            <h2>
+                Answer: THM{But_1ts_n0t_myf4ult!}
+            </h2>
+        </pre>
+    </body>

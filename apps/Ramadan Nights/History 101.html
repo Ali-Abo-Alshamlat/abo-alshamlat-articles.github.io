@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" href="../../css/Font.css">
+        <link rel="stylesheet" href="css/code.css">
+        <link rel="stylesheet" href="../../css/prism.css">
+        <script src="../../js/prism.js"></script>
+        <script src="js/copycode.js"></script>
+        <script type="module"
+            src="https://unpkg.com/@deckdeckgo/highlight-code@latest/dist/deckdeckgo-highlight-code/deckdeckgo-highlight-code.esm.js"></script>
+    </head>
+    <body>
+        
+            <h3>
+                Description
+            </h3>
+            <pre>
+                This challenge’s prompt basically said that an attack was detected on a user’s device in the company, however, 
+                the attacker couldn’t find the credentials, can you find them?
+            </pre>
+
+            <pre>
+                In this challenge, we’re given a zip file containing a .vmem memory image. 
+                The default tool to check disk images in this setting is volatility, 
+                it’s a very powerful framework for disk image forensics, 
+                and it works on multiple disk images (windows, mac, linux). 
+                Keep in mind, my solution here will be using [Volatility 3]. 
+                The first plugin I’m using here is the basic windows.info.
+                Info plugin to see system version info and know what we’re dealing with. 
+                Since it gives me proper output, this is indeed a windows disk image.
+            </pre>
+            <h3>
+                Solution
+            </h3>
+
+            The command format will be:
+
+            <div class="container">
+                <deckgo-highlight-code id="codeToCopy">
+                    <code slot="code">
+                        python3 vol.py -f <file-name> <plugin-name>
+            </code></deckgo-highlight-code>
+            <button id="copyButton">Copy</button>
+            </div>
+        
+            <img src="/public/images/Ramadan Nights/History 101/History 101-1.png"/>
+
+            <pre>
+                Okay so we know it’s Windows system, 
+                let’s now start scanning the files on this image to see if there are any clues.
+            </pre>
+
+            <img src="/public/images/Ramadan Nights/History 101/History 101-2.png"/>
+
+            <pre>
+                That’s a lot of files to look at manually, we’re going to try something else.
+                During research and trying out different info, I thought of checking any
+                commands that were written in a cmd or powershell window, so I used the
+                windows.cmdline.CmdLine plugin to check those.
+            </pre>
+
+            <img src="/public/images/Ramadan Nights/History 101/History 101-3.png"/>
+
+            <pre>
+                This one doesn’t output a very large number of things, and if you look closely
+                there’s an echoed string that looks like base64, I took that and decoded it to
+                find this:
+            </pre>
+
+            <img src="/public/images/Ramadan Nights/History 101/History 101-4.png"/>
+
+            <pre>
+                Okay, so this is some kinda’ clue, probably some password-protected file’s
+                answer. Let’s keep it around and try to look for a file that needs a password.
+
+                Back to scanning the files but this time we need to try and narrow down our
+                focus, I’ll check the running processes in that image to get any clues. I’ll use
+                the windows.pslist.PsList plugin to enumerate running ps-es.
+            </pre>
+
+            <img src="/public/images/Ramadan Nights/History 101/History 101-5.png"/>
+
+            <pre>
+                we have a lot of default system processes running, but here the
+                Microsoft Browser seems to be an interesting process to investigate. Let’s go
+                back to the filescan plugin and try to locate relevant files. After trying to
+                parse the output of the command and using findstr in the cmd, I kept getting
+                encoding errors so I decided to try a different method and just dump the
+                files associated with the msedge process using
+            </pre>
+
+            <div class="container">
+                <deckgo-highlight-code id="codeToCopy">
+                    <code slot="code">
+                        python vol.py -f Stolen.vmem -o . windows.dumpfiles.DumpFiles -p <process-id></process-id>
+                    </code>
+                </deckgo-highlight-code>
+                <button id="copyButton">Copy</button>
+            </div>
+
+            This dumped a huge amount of files, a lot of which are empty/unaccessible.
+
+            <img src="/public/images/Ramadan Nights/History 101/History 101-6.png"/>
+
+            Look what we have here, this looks promising. Let’s check it out.
+
+            <img src="/public/images/Ramadan Nights/History 101/History 101-7.png"/>
+
+            <pre>
+                Seems like this is an SQLite 3.x database file, so we’ll need a database viewer
+                to check its insides out. On Windows, there’s a DB Browser that can be used
+                to browse database files.
+            </pre>
+
+            <img src="/public/images/Ramadan Nights/History 101/History 101-8.png"/>
+
+            <pre>
+                In the Database Structure part, we can see the list of tables and indices, but
+                we can’t see any stored data, so I moved on to Browse Data and started
+                checking each table’s contents.
+            </pre>
+
+            <img src="/public/images/Ramadan Nights/History 101/History 101-9.png"/>
+
+            The first few tables were empty, then I found this. Let’s keep it going!
+
+            <img src="/public/images/Ramadan Nights/History 101/History 101-10.png"/>
+
+            <pre>
+                Okay, we’ve got something on our hands now! So the two most interesting
+                links here are the pastebin link and the Mega file. 
+                Let’s see where they’ll take us.
+            </pre>
+
+            <img src="/public/images/Ramadan Nights/History 101/History 101-11.png"/>
+
+            <pre>
+                I used the base64 string we found when running cmdline plugin and it opens
+                up a list of passwords. Let’s keep that here for now.
+            </pre>
+
+            <img src="/public/images/Ramadan Nights/History 101/History 101-12.png"/>
+
+            <pre>
+                I moved on to the Mega link and found a zip file named “keys.” After
+                downloading, I found a .kdbx file. After searching online, I found this is an
+                extension for a file locker called KeePass. I downloaded KeePass and opened
+                the file to find a Master password required. This master password must be
+                inside the wordlist above.
+            </pre>
+
+            <img src="/public/images/Ramadan Nights/History 101/History 101-13.png"/>
+
+            <pre>
+                Going back to the wordlist, after scrolling for 
+                a little bit I found a string that stands out.
+            </pre>
+
+            <img src="/public/images/Ramadan Nights/History 101/History 101-14.png"/>
+
+            Okay, let’s try this password and voilà!
+
+            <img src="/public/images/Ramadan Nights/History 101/History 101-15.png"/>
+
+            It appears the Username is a base64 string as well, I copied that and decoded it.
+
+            <img src="/public/images/Ramadan Nights/History 101/History 101-16.png"/>
+    </body>
+</html>

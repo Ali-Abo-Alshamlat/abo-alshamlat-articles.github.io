@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" href="../../css/Font.css">
+        <link rel="stylesheet" href="css/code.css">
+        <link rel="stylesheet" href="../../css/prism.css">
+        <script src="../../js/prism.js"></script>
+        <script src="js/copycode.js"></script>
+        <script type="module"
+            src="https://unpkg.com/@deckdeckgo/highlight-code@latest/dist/deckdeckgo-highlight-code/deckdeckgo-highlight-code.esm.js"></script>
+    </head>
+    <body>
+        
+            <h3>
+                Description
+            </h3>
+            <pre>
+                We have this file evl.7z after extract it we have these files
+            </pre>
+
+            <h3>
+                Solution
+            </h3>
+
+            <div class="container">
+                <deckgo-highlight-code id="codeToCopy">
+                    <code slot="code">
+                        Challenge.py: Python script, ASCII text executable, with CRLF line terminators
+                        file.txt:     ASCII text, with very long lines (467), with CRLF line terminators
+                    </code>
+                </deckgo-highlight-code>
+                <button id="copyButton">Copy</button>
+            </div>
+
+        let’s analyze them
+        Challenge.py
+
+        <div class="container">
+            <deckgo-highlight-code id="codeToCopy">
+                <code slot="code">
+                    from Cryptodome.Cipher import AES
+                    from Cryptodome.Util.Padding import pad, unpad
+                    import hashlib
+                    import os
+                    from secret import shared_secret
+
+
+                    FLAG = b'Flag{XXXXXXXXXXXXXXXXXXXXXXXXXXXXX}'
+
+                    def encrypt_flag(shared_secret: int):
+                        sha1 = hashlib.sha1()
+                        sha1.update(str(shared_secret).encode('ascii'))
+                        key = sha1.digest()[:16]
+                        iv = os.urandom(16)
+                        cipher = AES.new(key, AES.MODE_CBC, iv)
+                        ciphertext = cipher.encrypt(pad(FLAG, 16))
+                        data = {}
+                        data['iv'] = iv.hex()
+                        data['encrypted_flag'] = ciphertext.hex()
+                        return data
+
+
+                    print(encrypt_flag(shared_secret))
+                    #{'iv': '96a7f5c23a3344689b465a821ea0cf39', 'encrypted_flag': 
+                    '07ba868266c6c1f0a5600d8fafd984169222d32bdb786f03f06c327c02651be2a975cbaa20e8f89f17ce9ca2579a1a74'}
+                </code>
+            </deckgo-highlight-code>
+            <button id="copyButton">Copy</button>
+        </div>
+
+        file.txt
+
+        <div class="container">
+            <deckgo-highlight-code id="codeToCopy">
+                <code slot="code">
+                    g = 3
+                    p = 2410312426357032588552076022197566074856950548502459942654116941958108831682612228890093858261341614673227141477904012196503648957050582631942730706805009223062734745341073406696246014589361659774041027169249453200378729434170325843778659198143763193776859869524088940195577346119843545301547043747207749969763750084308926339295559968882457872412993810129130294592999947926365264059284647209730384947211681434464714438488520940127459844288859336526896320919633919
+                    A= 112218741139542908880564359534373424013016249772931962692237907571990334483528877513809272625610512061159061737608547288558662879685086684299624481742865016924065000555267977830144740364467977206555914781236397216033805882207640219686011643468275165718132888489024688846101943642459655423609111976363316080620471928236879737944217503462265615774774318986375878440978819238346077908864116156831874695817477772477121232820827728424890845769152726027520772901423784
+                    b = 19739342581490703698785772714920885908249341925650951555219049411298436217190605190824934787336279228785809783531814507661385111220639329358048196339626065676869119737979175531770768861808581110311903548567424039264485661330995221907803300824165469977099494284722831845653985392791480264712091293580274947132480402319812110462641143884577706335859190668240694680261160210609506891842793868297672619625924001403035676872189455767944077542198064499486164431451944
+                    B= 1212972460522075344783337556660700537760331108332735677863862813666578639518899293226399921252049655031563612905395145236854443334774555982204857895716383215705498970395379526698761468932147200650513626028263449605755661189525521343142979265044068409405667549241125597387173006460145379759986272191990675988873894208956851773331039747840312455221354589910726982819203421992729738296452820365553759182547255998984882158393688119629609067647494762616719047466973581
+
+                </code>
+            </deckgo-highlight-code>
+            <button id="copyButton">Copy</button>
+        </div>
+
+        <pre>
+            the Challenge mention thing about Diffie-Hellman key exchange .
+
+            so we can determine that
+
+            g is primitive root for p.
+
+            p is prime modulus.
+
+            A is public for person 1 compute using g^a % p.
+
+            b is secret number for second person.
+
+            B is public for person 2 compute using g^b % p.
+
+            let’s analyze the code
+
+            the method encrypt_flag take shared secret as int number
+
+            first thing convert this secret to string then take first 16 bytes from sha1 hash
+            result of shared secret as key,
+
+            after that generate random iv then encrypt the flag using aes cbc
+
+        </pre>
+
+        <h3>
+            solution:
+        </h3>
+
+        <pre>
+            compute the secret shared between them we need to calculate A^b % p
+
+            then take first 16 bytes from sha1 hash result of shared secret as key
+
+            after that decrypt it
+
+        </pre>
+
+        <h3>
+            script:
+        </h3>
+
+        <div class="container">
+            <deckgo-highlight-code id="codeToCopy">
+                <code slot="code">
+                    from Crypto.Cipher import AES
+                    from hashlib import sha1
+                    from Crypto.Util.Padding import unpad
+
+
+                    def decrypt(shared_secret):
+                        key = sha1(str(shared_secret).encode("ascii")).digest()[:16]
+                        iv = bytes.fromhex("96a7f5c23a3344689b465a821ea0cf39")
+                        ct = bytes.fromhex(
+                            "07ba868266c6c1f0a5600d8fafd984169222d32bdb786f03f06c327c02651be2a975cbaa20e8f89f17ce9ca2579a1a74"
+                        )
+                        aes = AES.new(key, AES.MODE_CBC, iv)
+                        return unpad(aes.decrypt(ct), 16).decode("utf-8")
+
+
+                    def main():
+                        p = 2410312426357032588552076022197566074856950548502459942654116941958108831682612228890093858261341614673227141477904012196503648957050582631942730706805009223062734745341073406696246014589361659774041027169249453200378729434170325843778659198143763193776859869524088940195577346119843545301547043747207749969763750084308926339295559968882457872412993810129130294592999947926365264059284647209730384947211681434464714438488520940127459844288859336526896320919633919
+                        A = 112218741139542908880564359534373424013016249772931962692237907571990334483528877513809272625610512061159061737608547288558662879685086684299624481742865016924065000555267977830144740364467977206555914781236397216033805882207640219686011643468275165718132888489024688846101943642459655423609111976363316080620471928236879737944217503462265615774774318986375878440978819238346077908864116156831874695817477772477121232820827728424890845769152726027520772901423784
+                        b = 19739342581490703698785772714920885908249341925650951555219049411298436217190605190824934787336279228785809783531814507661385111220639329358048196339626065676869119737979175531770768861808581110311903548567424039264485661330995221907803300824165469977099494284722831845653985392791480264712091293580274947132480402319812110462641143884577706335859190668240694680261160210609506891842793868297672619625924001403035676872189455767944077542198064499486164431451944
+
+                        print(decrypt(pow(A, b, p)))
+
+
+                    if __name__ == "__main__":
+                        main()
+                </code>
+            </deckgo-highlight-code>
+            <button id="copyButton">Copy</button>
+        </div>
+
+
+        
+        <h2><i>
+            flag{s1mple_linux_101}
+        </i></h2>
+    </body>
+</html>

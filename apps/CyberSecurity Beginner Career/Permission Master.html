@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" href="../../css/Font.css">
+        <link rel="stylesheet" href="css/folderview.css">
+        <script src="js/folderview.js"></script>
+    </head>
+    <body>
+        <p>
+            ~To solve the challenge, follow the challenge link. 
+            This takes you to a terminal-like interface.
+        </p>
+        <p>~ Use the provided credentials to login. That is:</p>
+        <p>user: ctf</p>
+        <p>password: ctf</p>
+        <p>~ Go to tmp directory ($ cd /tmp)</p>
+        <p>~ List ($ ls) the directory contents and note the file perm_master.</p>
+        <p>~ Now get the permission by using $ ls -la perm_master hence the permission string:</p>
+        <p>
+            <code>
+                - rw-r — r —
+            </code>
+        </p>
+        <p>~ Getting permission number by the string -rw-r — r — as follows:</p>
+        <p>The numbers are calculated by adding the binary values represented by r, w, and x</p>
+        <pre>
+            <code>
+                r = 100b = 4
+                w = 010b = 2
+                x = 001b = 1
+            </code>
+        </pre>
+        <p>in every group. In your case, <code>-rw-r--r--</code> would be represented by</p>
+        <pre><code>6(r+w=4+2)4(r=4)4(r=4)</code></pre>
+        <p>so the relevant command is</p>
+        <pre>
+            <code>chmod 644 path/to/file</code>
+        </pre>
+        <pre>
+            ~ Hence $ chmod 644 perm_master
+
+            ~ Now open the file using the command 
+            $ cat perm_master and get the hashed flag as shown below:
+        </pre>
+        <p>
+            Flag= ZmxhZ3t5b3VyX25ld19uaWNrbmFtZV9pc19wZXJtQE1hc3Rlcn0=
+        </p>
+        <img src="/public/images/CyberSecurity Beginner Career/Permission Master/Permission Master-1.png"/>
+        <img src="/public/images/CyberSecurity Beginner Career/Permission Master/Permission Master-2.png"/>
+        <p>~ To decrypt the hash go to <a href="https://hashes.com/en/decrypt/hash">here</a> and decrypt it as shown below:</p>
+        <img src="/public/images/CyberSecurity Beginner Career/Permission Master/Permission Master-3.png"/>
+        <h2><i>
+            flag{your_new_nickname_is_perm@Master}
+        </i></h2>
+    </body>
+</html>

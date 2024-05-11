@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" href="../../css/Font.css">
+        <link rel="stylesheet" href="css/code.css">
+        <script src="js/folderview.js"></script>
+    </head>
+    <body>
+        <pre>
+            We got a PCAP file, and the description says that our website got hacked, 
+            and the attackers hid something.
+
+            Filtering for HTTP requests
+
+            <img src="/public/images/BlueTeam Scholarship CTF Writeups/T3ST4R/T3ST4R-1.png"/>
+           
+            You going to notice that there are a bunch of POST requests to <h3>panel.php</h3>
+            from <h3>192.168.235.137</h3>
+        
+            Checking these streams, you are going to find a flag.jpg 
+            that he is uploading. Easy
+
+            <img src="/public/images/BlueTeam Scholarship CTF Writeups/T3ST4R/T3ST4R-2.png"/>
+
+            Export the file and open it.
+
+            <img src="/public/images/BlueTeam Scholarship CTF Writeups/T3ST4R/T3ST4R-3.png"/>
+
+            Well, we got played and felled into the rabbit hole.
+
+            Continue our analysis. I have found ‘elephant.php.png’ and why there is
+            double extension. It is because this is a technique that attackers use to
+            bypass the WAF, if the WAF only allowing a Png files. 
+            So, the attacker tricked the WAF and uploaded a php file.
+
+            <img src="/public/images/BlueTeam Scholarship CTF Writeups/T3ST4R/T3ST4R-4.png"/>
+
+            Checking the content of the php file
+
+            <img src="/public/images/BlueTeam Scholarship CTF Writeups/T3ST4R/T3ST4R-5.png"/>
+
+            So, the attacker file simply loads this URL and pass to shell_exec() function,
+            so it may be a reverse shell. It was kind of obvious for me because of my pen
+            test background, as when I saw PentestMonkey all the reverse shell alarms
+            just started going.
+
+            After checking the URL, it downloaded a favicon file, which after doing
+            strings on it It appears that it does indeed contain a reverse shell.
+
+            <img src="/public/images/BlueTeam Scholarship CTF Writeups/T3ST4R/T3ST4R-6.png"/>
+
+            This string looks like it needs decryption. 
+            Getting the string and going to CyberChef
+
+            <img src="/public/images/BlueTeam Scholarship CTF Writeups/T3ST4R/T3ST4R-7.png"/>
+
+            You will get most of the flag, and you can guess the rest easily.
+        </pre>
+        <h2><i>
+            Flag{0H_1M_H3R3_MY_FR13N6_Y0U_G0T_MY_B4CKD00R}
+        </i></h2>
+    </body>
+</html>

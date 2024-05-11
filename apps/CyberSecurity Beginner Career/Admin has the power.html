@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" href="../../css/Font.css">
+        <link rel="stylesheet" href="css/code.css">
+        <script src="js/folderview.js"></script>
+    </head>
+    <body>
+        <p>Administrators only has the power to see the flag , can you be one ?</p>
+        <img src="/public/images/CyberSecurity Beginner Career/Admin has the power/Admin has the power-1.png"/>
+        <p>The challenge says we have to be admin in order to get the flag. As of now we do not have any login credentials whether it be of admin or a normal user. So just try some SQL injection or random login credentials.</p>
+        <p>So now inspect the source code of the page:</p>
+        <img src="/public/images/CyberSecurity Beginner Career/Admin has the power/Admin has the power-2.png"/>
+        <p>As you can see we have a lead now. Hurray, we have the <b> login credentials of support </b> which are left mistakenly for the repair of the web page.</p>
+        <p>Now use these credentials to log in and get access to the support account.</p>
+        <img src="/public/images/CyberSecurity Beginner Career/Admin has the power/Admin has the power-3.png"/>
+        <p>We have support privilege. But in order to get the flag we want admin privilege.</p>
+        <p>Let’s move on and inspect page. On inspecting the code again nothing suspicious found.</p>
+        <p>Let’s inspect the session storage or cookies, that might give us some hint.</p>
+        <img src="/public/images/CyberSecurity Beginner Career/Admin has the power/Admin has the power-4.png"/>
+        <p>Here you can see that we have a cookie and a role set to support. Let’s mess with the role, as our aim is to get admin privilege.</p>
+        <p>Change this role to : <b>admin</b></p>
+        <img src="/public/images/CyberSecurity Beginner Career/Admin has the power/Admin has the power-5.png"/>
+        <p>Now as the role is changed to admin. Refresh the page.</p>
+        <img src="/public/images/CyberSecurity Beginner Career/Admin has the power/Admin has the power-6.png"/>
+        <h2><i>
+        hiadminyouhavethepower 
+        </i></h2>
+    </body>
+</html>

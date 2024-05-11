@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" href="../../css/Font.css">
+        <link rel="stylesheet" href="css/folderview.css">
+        <script src="js/folderview.js"></script>
+    </head>
+    <body>
+        <p>I use Ghidra as tool.</p>
+        <p><b>Q1-</b>What is the address of the main function ?</p>
+        <p>
+            When analyzing the file i found out there is :
+            <b>FUN_0040118</b> that contains main function
+        </p>
+        <img src="/public/images/CyberSecurity Beginner Career/Find the Pass/Find the Pass-1.png"/>
+        <p><b>Q2-</b>What is the address of the function that Validate the input ?</p>
+        <p>
+            As i was analyze the main function i came across with name “elite” 
+            and tried up and found out that was the password finding its 
+            function came to realize that was just above the function of 
+            main which was <code>FUN_00401100</code>
+        </p>
+        <img src="/public/images/CyberSecurity Beginner Career/Find the Pass/Find the Pass-2.png"/>
+        <p><code>Q3-</code>What is the address of the hardcoded password</p>
+        <img src="/public/images/CyberSecurity Beginner Career/Find the Pass/Find the Pass-3.png"/>
+        <h2><i>
+        flag{0X401180|0X401100|0X4020f8}
+        </i></h2>
+    </body>
+</html>

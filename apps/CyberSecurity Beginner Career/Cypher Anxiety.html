@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" href="../../css/Font.css">
+        <link rel="stylesheet" href="css/folderview.css">
+        <script src="js/folderview.js"></script>
+    </head>
+    <body>
+        <p>An image was leaked from a babies store. the manager is so annoyed 
+           because he needs to identify the image to fire charges against the
+           responsible employee. the key is the md5 of the image
+        </p>
+        <p>
+            the flag was sent and captured inside the pcap file, 
+            but binwalk and foremost couldn’t find anything !
+        </p>
+        <p>
+            <code>
+                ┌─[root@kali]─[~]
+                └──╼ #binwalk find\ the\ image.pcap 
+
+                DECIMAL       HEXADECIMAL     DESCRIPTION
+                --------------------------------------------------------------------------------
+
+                ┌─[root@kali]─[~]
+                └──╼ #foremost find\ the\ image.pcap 
+                Processing: find the image.pcap
+                |*| 
+                ┌─[root@kali]─[~]
+                └──╼ #ls -R output/
+                output/:
+                audit.txt
+            </code>
+        </p>
+        <p>so i took a look at strings inside the pcap …</p>
+        <p>
+            <code>
+                ┌─[root@kali]─[~]
+                └──╼ #strings find\ the\ image.pcap  -n 10 | head -n 8
+                Sup supp, are we ready
+                yeah, u got the files?
+                yes but i think the channel is not secured
+                the UTM will block the file transfer as the DLP module is active
+                ok we can use cryptcat
+                ok what the password then
+                let it be P@ssawordaya
+                listen on 7070 and ill send you the file , bye
+            </code>
+        </p>
+        <p>
+            So they use cryptcat over the port <code>7070</code> with the secret key <code>P@ssawordaya</code> . 
+            With wireshark let's filter <code>tcp.port == 7070</code>, then flow TCP stream and save it 
+            as raw file.
+        </p>
+        <img src="/public/images/CyberSecurity Beginner Career/Cypher Anxiety/Cypher Anxiety-1.png"/>
+        <p>
+            Then open a netcat client on localhost: 
+            <code>netcat localhost 7070 < crypted.file</code>. 
+            And open a cryptcat listener on localhost: 
+            <code>cryptcat -l -k P@ssawordaya -p 7070 > decrypted.file</code>.
+        </p>
+        <h2><i>
+        3beef06be834f3151309037dde4714ec 
+        </i></h2>
+    </body>
+</html>

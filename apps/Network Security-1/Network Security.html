@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" href="../../css/Font.css">
+        <link rel="stylesheet" href="css/code.css">
+    </head>
+    <body>
+
+        <pre>
+
+            <h3>
+                What is a Firewall?
+            </h3>
+            
+            A firewall is hardware, software, or a combination of both that is used to prevent unauthorized programs or 
+            Internet users from accessing a private network and/or a single computer
+
+            <img src="/public/images/Network Security-1/Network Security-1.jpg"/>
+
+             A firewall :
+            ◦ Acts as a security gatewaybetween two networks
+            ◦ Tracks and controls network communicationsDecides whether to pass,reject, encrypt, or log
+            communications (Access Control)
+
+            <img src="/public/images/Network Security-1/Network Security-2.jpg"/>
+
+            <h3>
+                Hardware vs. Software Firewalls
+            </h3>
+
+            <b>Hardware Firewalls</b>
+            ◦ Protect an entire network
+            ◦ Implemented on the router level
+            ◦ Usually more expensive, harder to configure
+            <b>Software Firewalls</b>
+            ◦ Protect a single computer
+            ◦ Usually less expensive, easier to configure
+            
+
+            <h3>
+                Packet Filter
+            </h3>
+
+            ◦ Packets examined at the network layer
+            ◦ Useful “first line” of defense - commonly deployed onrouters
+            ◦ Simple accept or reject decision model
+            ◦ No awareness of higher protocol layers
+
+            <img src="/public/images/Network Security-1/Network Security-3.jpg"/>
+
+            ◦ Simplest of components
+            ◦ Uses transport-layer information only
+                ◦ IP Source Address, Destination Address
+                ◦ Protocol/Next Header (TCP, UDP, ICMP, etc)
+                ◦ TCP or UDP source & destination ports
+                ◦ TCP Flags (SYN, ACK, FIN, RST, PSH, etc)
+                ◦ ICMP message type
+            ◦ Examples
+            ◦ DNS uses port 53
+            No incoming port 53 packets except known trusted servers
+
+
+            <h3>
+                How to Configure a Packet Filter
+            </h3>
+
+            ◦ Start with a security policy
+            ◦ Specify allowable packets in terms of logical expressions on packet fields
+            ◦ Rewrite expressions in syntax supported by your vendor
+            ◦ General rules - least privilege
+                ◦ All that is not expressly permitted is prohibited
+                ◦ If you do not need it, eliminate it
+
+            <h3>
+                Packet Filter Configuration - 1
+            </h3>
+
+            Every ruleset is followed by an implicit rule reading like this.
+
+            action src port dest port flags comment
+            block   *   *     *    *   *    default
+
+            Suppose we want to allow inbound mail (SMTP, port 25)
+            but only to our gateway machine. Also suppose that
+            mail from some particular site SPIGOT is to be blocked.
+
+            <h3>
+                Packet Filter Configuration - 2
+            </h3>
+
+            action src    port dest   port flags comment
+            block SPIGOT    *   *      *     *   We don’t trust 
+                                                 these site
+
+            allow  *        *  OUR-GW  25    *   Connection to our
+                                                 SMTP port
+
+            Example 2:
+            Now suppose that we want to implement the policy “any
+            inside host can send mail to the outside”.
+
+            <h3>
+                Application Gateway or Proxy
+            </h3>
+
+            ◦ Packets examined at the application layer
+            ◦ Application/Content filtering possible - prevent FTP “put” commands, for example
+            ◦ Modest performance
+            ◦ Scalability limited
+
+            <img src="/public/images/Network Security-1/Network Security-4.jpg"/>
+
+            <h3>
+                Stateful Inspection
+            </h3>
+
+            ◦ Packets Inspected between data link layer and network layer in the OS kernel
+            ◦ State tables are created to maintain connection context
+            ◦ Invented by Check Point
+
+            <img src="/public/images/Network Security-1/Network Security-5.jpg"/>
+
+            <h3>
+                Network Address Translation (NAT)
+            </h3>
+
+            <img src="/public/images/Network Security-1/Network Security-6.jpg"/>
+
+            ◦ Converts a network’s illegal IP addresses to legal or public IP addresses
+            ◦ Hides the true addresses of individual hosts, protecting them from attack
+            ◦ Allows more devices to be connected to the network
+
+            <h3>
+                Firewall Deployment
+            </h3>
+
+            ◦ Corporate Network Gateway
+            ◦ Internal Segment Gateway
+                ◦ Protect sensitive segments (Finance, HR,Product Development)
+                ◦ Provide second layer ofdefense
+                ◦ Ensure protection against internal attacks and misuse
+
+            <img src="/public/images/Network Security-1/Network Security-7.jpg"/>
+
+            <h3>
+                What is a VPN?
+            </h3>
+
+            ◦ A VPN is a private connection over an open network
+            ◦ A VPN includes authentication and encryption to protect data integrity and confidentiality
+
+            <img src="/public/images/Network Security-1/Network Security-8.jpg"/>
+
+            <h3>
+                Types of VPNs
+            </h3>
+
+            ◦ Remote Access VPN
+            ◦ Provides access to internal corporate network over the Internet
+            ◦ Reduces long distance, modem bank, and technical support costs
+            ◦ PAP,CHAP,RADIUS
+
+            <img src="/public/images/Network Security-1/Network Security-9.jpg"/>
+
+            <h3>
+                Types of VPNs
+            </h3>
+
+            ◦ Remote Access VPN
+            ◦ Site-to-Site VPN
+                ◦ Connects multiple offices over Internet
+                ◦ Reduces dependencies on frame relay and leased lines
+            <img src="/public/images/Network Security-1/Network Security-10.jpg"/>
+
+            ◦ Extranet VPN
+                ◦ Provides business partners access to critical information (leads, sales tools, etc)
+                ◦ Reduces transaction and operational costs
+            
+            <img src="/public/images/Network Security-1/Network Security-11.jpg"/>
+
+            ◦ Client/Server VPN
+                ◦ Protects sensitive internal communications
+
+            <img src="/public/images/Network Security-1/Network Security-12.jpg"/>
+
+            <h3>
+                Overview of IDS/IPS
+            </h3>
+
+            ◦ Intrusion
+                ◦ A set of actions aimed at compromising the security goals
+                (confidentiality, integrity, availability of a computing/networking resource)
+            ◦ Intrusion detection
+                ◦ The process of identifying and responding to intrusion activities
+            ◦ Intrusion prevention
+                ◦ The process of both detecting intrusion activities and managing
+                  responsive actions throughout the network.
+            
+            <b>
+                ◦ Intrusion detection system (IDS)
+            </b>
+                ◦ A system that performs automatically the process of intrusion detection.
+            
+            <b>
+                ◦ Intrusion prevention system (IPS)
+            </b>
+                ◦ A system that has an ambition to both detect intrusions and
+                manage responsive actions.
+                ◦ Technically, an IPS contains an IDS and combines it with
+                preventive measures (firewall, antivirus, vulnerability assessment)
+                that are often implemented in hardware.
+
+            <h3>
+                Components of Intrusion Detection System
+            </h3>
+
+            <img src="/public/images/Network Security-1/Network Security-13.jpg"/>
+
+            <h3>
+                Intrusion Detection Approaches
+            </h3>
+
+            ◦ Modeling
+                ◦ Features: evidences extracted from audit data
+                ◦ Analysis approach: piecing the evidences together
+                    ◦ Misuse detection (a.k.a. signature-based)
+                    ◦ Anomaly detection (a.k.a. statistical-based)
+
+            ◦ Deployment: Network-based or Host-based
+                ◦ Network based: monitor network traffic
+                ◦ Host based: monitor computer processes
+
+            <h3>
+                Security Information and Event Management (SIEM)
+            </h3>
+
+            <b>
+                ◦ LMS - “Log Management System” –
+            </b>
+
+            a system that collects and store Log Files (from
+            Operating Systems, Applications, etc) from multiple hosts and systems into a single
+            location, allowing centralized access to logs instead of accessing them from each system
+            individually.
+
+            <b>
+                ◦ SLM /SEM – “Security Log/Event Management” –
+            </b>
+
+            an LMS, but marketed towards
+            security analysts instead of system administrators. SEM is about highlighting log entries as
+            more significant to security than others.
+
+            <b>
+                SIM – “Security Information Management” -
+            </b>
+
+            an Asset Management system, but with
+            features to incorporate security information too. Hosts may have vulnerability reports
+            listed in their summaries, Intrusion Detection and AntiVirus alerts may be shown mapped
+            to the systems involved.
+
+            <b>
+                SEC - “Security Event Correlation” –
+            </b>
+
+            To a particular piece of software, three failed
+            login attempts to the same user account from three different clients, are just three lines in
+            their logfile. To an analyst, that is a peculiar sequence of events worthy of investigation, and
+            Log Correlation (looking for patterns in log files) is a way to raise alerts when these
+            things happen.
+
+            <b>
+                SIEM – “Security Information and Event Management” –
+            </b>
+
+            SIEM is the “All of the
+            Above” option, and as the above technologies become merged into single products,
+            became the generalized term for managing information generated from security controls
+            and infrastructure. We’ll use the term SIEM for the rest of this presentation
+
+            <h3>
+                Background on Network Components
+            </h3>
+
+            ◦ Router
+            ◦ Switch (L2 & L3)
+            ◦ Servers (Application, Database, etc.)
+            ◦ Firewall
+            ◦ Demilitarized Zone (DMZ)
+            ◦ Virtual Private Network
+            ◦ IPS/IDS
+
+            <h3>
+                Defense in Depth
+            </h3>
+
+            <img src="/public/images/Network Security-1/Network Security-14.jpg"/>
+
+            <h3>
+                Typical Corporate Environment
+            </h3>
+
+            <img src="/public/images/Network Security-1/Network Security-15.jpg"/>
+
+            <h3>
+                Log Management
+            </h3>
+
+            ◦ Log management (LM) comprises an approach to dealing
+                with large volumes of computer-generated log messages
+                (also known as audit records, audit trails, event-logs, etc.).
+            
+            ◦ LM covers log collection, centralized aggregation, long-term
+                retention, log analysis (in real-time and in bulk after storage)
+                as well as log search and reporting.
+
+            <img src="/public/images/Network Security-1/Network Security-16.jpg"/>
+
+            <h3>
+                Log Management Challenges
+            </h3>
+
+            ◦ Analyzing Logs for Relevant Security Intelligence
+            ◦ Centralizing Log Collection
+            ◦ Meeting IT Compliance Requirements
+            ◦ Conducting Effective Root Cause Analysis
+            ◦ Making Log Data More Meaningful
+            ◦ Tracking Suspicious User Behavior
+
+            <h3>
+                Introduction to SIEM
+            </h3>
+
+            ◦ The term Security Information Event Management (SIEM),
+              coined by Mark Nicolett and Amrit Williams of Gartner in
+              2005.
+            ◦ Describes the product capabilities of gathering, analyzing and
+              presenting information from network and security devices;
+              identity and access management applications; vulnerability
+              management and policy compliance tools; operating system,
+              database and application logs; and external threat data.
+            ◦ Security Information and Event Management (SIEM) is a term
+              for software and products services combining security
+              information management (SIM) and security event manager
+              (SEM).
+
+            <h3>
+                Key Objectives
+            </h3>
+
+            ◦ Identify threats and possible breaches
+            ◦ Collect audit logs for security and compliance
+            ◦ Conduct investigations and provide evidence
+
+            <h3>
+                A SIEM Scenario
+            </h3>
+
+            <img src="/public/images/Network Security-1/Network Security-17.jpg"/>
+
+            <h3>
+                Typical Working of an SIEM Solution
+            </h3>
+
+            <img src="/public/images/Network Security-1/Network Security-18.jpg"/>
+
+            <h3>
+                SIEM Architecture
+            </h3>
+
+            <img src="/public/images/Network Security-1/Network Security-19.jpg"/>
+
+            <h3>
+                Typical Features of SIEM
+            </h3>
+
+            <img src="/public/images/Network Security-1/Network Security-20.jpg"/>
+
+            <h3>
+                Context
+            </h3>
+
+            <img src="/public/images/Network Security-1/Network Security-21.jpg"/>
+
+            <h3>
+                Adding Context
+            </h3>
+
+            ◦ Examples of context
+                ◦ Add geo-location information
+                ◦ Get information from DNS servers
+                ◦ Get User details (Full Name, Job Title & Description)
+            ◦ Add context aids in identifying
+                ◦ Access from foreign locations
+                ◦ Suspect data transfer
+
+            <h3>
+                How a Log File is Generated in your Network
+            </h3>
+
+            <h3>
+                Why is SIEM Necessary?
+            </h3>
+
+            ◦ Rise in data breaches due to internal and external threats
+            ◦ Attackers are smart and traditional security tools just don’t suffice
+            ◦ Mitigate sophisticated cyber-attacks
+            ◦ Manage increasing volumes of logs from multiple sources
+            ◦ Meet stringent compliance requirements
+
+
+        </pre>
+    </body>

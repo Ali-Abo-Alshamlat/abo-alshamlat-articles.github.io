@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" href="../../css/Font.css">
+        <link rel="stylesheet" href="css/code.css">
+    </head>
+    <body>
+        <pre>
+            <h1>
+                Vulnerable Web Application 1
+            </h1>
+    
+            Connect to OpenVPN first and then deploy the attached VM.
+
+            Now, open the given URL (http://10.10.171.250:3923)
+
+            <img src="/public/images/Xss/task5-1.png"/>
+
+            This will be shown up on the screen. Now, navigate to the control-panel
+            section and you will see another window opening up.
+
+            <img src="/public/images/Xss/task5-2.png"/>
+
+            Now, open burpsuite and turn on the intercept and then try to type
+            something into the login search bar. Upon intercepting the traffic, you will
+            see that whatever you are writing into the login bar is being reflected in the
+            burpsuite window:
+
+            <img src="/public/images/Xss/task5-3.png"/>
+
+            I had typed in appleS into the login bar. XD So random!
+            This proves that our website has reflected XSS
+
+            Ques 1: What type of vulnerability is it?
+
+            <h2>
+                Answer: reflected xss
+            </h2>
+
+            Coming back to our control-panel page, we can see that there’s another
+            option ‘enable k304’.
+
+            <img src="/public/images/Xss/task5-4.png"/>
+
+            Now, open burpsuite and turn on the intercept again. Now, navigate back to
+            that page and click on the ‘enable k304’ button to intercept the traffic and
+            further modify it.
+
+            <img src="/public/images/Xss/task5-5.png"/>
+
+            Now insert the following encoding in front of ?k304=y:
+
+            ?k304=y%0D%0A%0D%0A%3Cimg+src%3Dcopyparty+onerror%3Dalert(1)%3E
+
+            <img src="/public/images/Xss/task5-6.png"/>
+
+            Send it to repeater
+
+            <img src="/public/images/Xss/task5-7.png"/>
+
+            And here is our answer!
+
+            Ques 2: Use the above exploit against the attached VM. What do you see on
+            the second line after go to?
+
+            <h2>
+                Answer: /?h#cc
+            </h2>
+
+            
+        </pre>
+    </body>
