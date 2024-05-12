@@ -1,0 +1,176 @@
+::-webkit-scrollbar {
+    width: 5px;
+    height: 5px;
+}
+  
+::-webkit-scrollbar-track {
+    background: #aaaaaa; 
+}
+   
+::-webkit-scrollbar-thumb {
+    background: #444444; 
+}
+  
+::-webkit-scrollbar-thumb:hover {
+    background: #888888; 
+}
+
+body{
+    background: #333333;
+    --app-cursor-default: url("../../../icons/Suru/Suru/48x48/devices/normal-select.svg");
+    cursor: var(--app-cursor-default),auto;
+}
+
+.item{
+    height: 100px;
+    width: 100px;
+    color: #ffffff;
+    text-align: center;
+    float:left;
+    transition-duration: 0.1s;
+    padding-left: 20px;
+}
+
+.item:hover{
+    transition-duration: 0.1s;
+    filter: brightness(1.5);
+}
+
+.item-list{
+    height: 50px;
+    color: #ffffff;
+    font-size: 16px;
+    word-break: break-all;
+}
+
+.item-list-table{
+    border: none;
+    width: 100%;
+}
+
+.item-list-table-1{
+    width: 50px;
+}
+
+.item-list-table-2{
+    text-align: left;
+    color: #ffffff;
+}
+
+.item-list-table-3{
+    text-align: right;
+    color: #999999;
+    font-weight: 500;
+}
+
+.aboutLocation{
+    font-size: 16px;
+    font-weight: 800;
+    color: #ffffff;
+    border-bottom: #222222 1px solid;
+    line-height: 24px;
+}
+
+.item-icon{
+    height:48px;
+    width: 48px;
+}
+
+.item-list-icon{
+    height:48px;
+    width: 48px;
+}
+p{
+    color: aliceblue;
+}
+pre{
+    color: aliceblue;
+}
+h2{
+    color: rgb(10, 137, 248);
+}
+h3{
+    color: rgb(10, 248, 109);
+}
+
+.highlighter-rouge {
+    color: var(--highlighter-rouge-color);
+    margin-top: 0.5rem;
+    margin-bottom: 1.2em;
+}
+
+.code-header {
+    border-top-left-radius: 6px;
+    border-top-right-radius: 6px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 2.25rem;
+}
+
+code-header button {
+    height: 2.25rem;
+    width: 2.25rem;
+    background-color: inherit;
+    border-width: 1px;
+    border-style: solid;
+    border-color: transparent;
+    border-image: initial;
+    border-radius: 6px;
+    padding: 0px;
+}
+
+.code-header button i {
+    color: var(--code-header-icon-color);
+}
+
+.highlight {
+    padding-top: 0.5rem;
+    padding-bottom: 1rem;
+    overflow: auto;
+}
+
+table {
+    border-collapse: collapse;
+}
+
+tbody {
+    display: table-row-group;
+    vertical-align: middle;
+    unicode-bidi: isolate;
+    border-color: inherit;
+}
+
+tr {
+    display: table-row;
+    vertical-align: inherit;
+    unicode-bidi: isolate;
+    border-color: inherit;
+}
+
+td {
+    display: table-cell;
+    vertical-align: inherit;
+    unicode-bidi: isolate;
+}
+
+td.rouge-code {
+    padding-left: 1rem;
+    padding-right: 1.5rem;
+}
+
+pre{
+    color: aliceblue;
+}
+
+p{
+    color: aliceblue;
+}
+
+h2{
+    color: rgb(10, 137, 248);
+}
+
+.mk{
+   box-shadow: inset 3px 0 0 0 #f2ff00;
+}

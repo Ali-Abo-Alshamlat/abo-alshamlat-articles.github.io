@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" href="../../css/Font.css">
+        <link rel="stylesheet" href="css/code.css">
+    </head>
+    <body>
+
+        <pre>
+
+            <img src="../../public/images/Honeypot/Honeypot-1.png"/>
+
+            First, I think it’s important to describe what a honeypot is and why it’s a good
+            idea to create one. In the cyber security field, a honeypot is basically a trap
+            or decoy that you can set up to gather details on malicious activity from
+            attackers/hackers on your IP address for the honeypot. It can be set up in
+            various ways but the general gist is that it’s an attractive machine to bait
+            attackers. You can use information gained from a honeypot to understand
+            various attacks and to see what malware is being used.
+
+            I highly recommend having a Virtual Machine (VM) setup already for this
+            project. The Secure Shell (SSH) portion of this project will be done in the Kali
+            Linux command line. For this setup, we’ll be installing T-Pot through an
+            instance spun up in Amazon Web Services (AWS). I’m going to do my best to
+            not get too long-winded for this setup process with every little detail. But I
+            will make sure the process is simple to follow with explanations and visuals.
+            Also always remember to use a strong password for your honeypot ; )
+
+            <b>
+                AWS
+            </b>
+
+            So a fun way to set up your honeypot is by having it hosted through an AWS
+            instance. During my cyber boot camp at Fullstack Academy, we used AWS for
+            this project. First, if you don’t have an account with AWS then sign up for
+            12months free and you can work on various projects. Go to this link and set
+            up an account: https://portal.aws.amazon.com/billing/signup#/start. This
+            honeypot project isn’t too expensive. You can just create the honeypot and let
+            it run for a day and you should have plenty of information gathered to dissect.
+
+            Once you’ve created an account you can search for AWS Management
+            Console and start to spin up an instance. Instances will be found inside of
+            the Elastic Compute Cloud (EC2) tab shown below. You may not immediately
+            have EC2 show up so search for it at the top of the webpage. Once you’ve
+            used AWS for a bit your main console dashboard will look like the one below.
+
+            <img src="../../public/images/Honeypot/Honeypot-2.png"/>
+
+            You can choose any region you want; I chose Virginia for the Fullstack boot
+            camp. Once you’ve selected the region you want to use then go to the EC2. In
+            the EC2 dashboard, you’ll see a long drop-down menu with tons of services
+            and options to go through. Look for instances on the left-side menu options.
+            Once there you’ll see a tab in the top right corner that says Launch instances; lick on that.
+
+            <img src="../../public/images/Honeypot/Honeypot-3.png"/>
+
+            The Next page will show you options to choose from for Step 1: Choose and
+            Amazon Machine Image (AMI). You’ll want to go to AWS Marketplace. Next
+            type in Debian 10 buster for the Operating System (OS) that we will use.
+            Select the free tier option. You’ll be prompted by a long list of potential
+            expenses which is normal so click Continue.
+
+            <img src="../../public/images/Honeypot/Honeypot-4.png"/>
+
+            The second step will be to choose an Instance Type. You’ll see a lot of options
+            to select from, choose the one with relatively more memory. Choose
+            t2.xlarge which has 4 Virtual CPUs and 16GM of memory. Click next to
+            Configure Instance Details. Next to Network, you should already have a
+            default Virtual Private Network (VPC). For Subnet just choose one of the
+            default dropdown options. I chose us-east-1a. Make sure to choose; enable for Auto-assign Public IP.
+
+            <img src="../../public/images/Honeypot/Honeypot-5.png"/>
+
+            After that click Next to Add Storage. For this project, we used 128GB of
+            storage. This will depend on how long you choose to keep your honeypot
+            running. The longer it runs the more space it will eventually need because it
+            can end up being a lot of data depending on the types of attacks you may
+            receive. Click Next to Add Tags. 
+
+            <b>
+                Linux Command Line
+            </b>
+
+            Windows is a little more difficult using the key from AWS so I used it only in
+            my Kali Linux VM for this project. If you are using a VM and downloaded
+            your private key on your host machine you can just copy and paste the key
+            into whatever directory you decide to use inside of your VM. I created a
+            directory called AWS in my Kali command line.
+
+            <img src="../../public/images/Honeypot/Honeypot-6.png"/>
+
+            Now it’s time to SSH onto the instance and run an update on it. The easy way
+            to do this is to go back to the instance you created in AWS and click on the
+            Instance ID of your created instance.
+
+            <img src="../../public/images/Honeypot/Honeypot-7.png"/>
+
+            Copy this Linux command string and go to your kali command line and paste it in.
+
+            <img src="../../public/images/Honeypot/Honeypot-8.png"/>
+
+            Now update the instance by typing: sudo apt update. Then upgrade the
+            instance: sudo apt upgrade.
+
+            <b>
+                T-Pot Installation
+            </b>
+
+            You’ll be downloading T-Pot from github.com: sudo git clone
+            <a href="https://github.com/telekom-security/tpotce.git">
+                https://github.com/telekom-security/tpotce.git
+            </a>
+
+            Now a big blue screen shows up with information to choose your T-Pot Edition. 
+
+            <img src="../../public/images/Honeypot/Honeypot-9.png"/>
+
+            <b>
+                Security Groups
+            </b>
+
+            This process will end up changing the ports associated with your instance for ssh and the website.
+
+            <img src="../../public/images/Honeypot/Honeypot-10.png"/>
+
+            On the next page scroll to the bottom and click on Edit Inbound Rules. Here
+            we will change the rules for ssh to the instance as well as the website.
+
+            <img src="../../public/images/Honeypot/Honeypot-11.png"/>
+
+            <b>
+                SSH Time!!
+            </b>
+
+            Now let’s first go back to the Kali Linux command line and ssh into the
+            instance on the new port number. The command will look like this sudo ssh -i
+            “testhoney.pem” admin@ec2–18–215–236–169.compute-1.amazonaws.com -p
+            64295.
+
+            <b>
+                T-Pot Admin Portal
+            </b>
+
+            Now it’s time to go to your internet browser and type log into the web admin
+            portal for your T-Pot. In your browser URL bar type
+            <a href="https://18.215.236.169:64297">
+                https://18.215.236.169:64297
+            </a>
+
+            <img src="../../public/images/Honeypot/Honeypot-12.png"/>
+
+            <b>
+                T-Pot Tools
+            </b>
+
+            Now I’ll help you along in a few areas you can utilize for searching for various information.
+            First, we’ll start with Kibana. Once Kibana opens click
+            on the T-Pot option in the list that appears. Now you’ll be taken to the Elastic
+            Dashboard where you can see a major breakdown of various attacks
+            happening on your honeypot. 
+
+            <img src="../../public/images/Honeypot/Honeypot-13.png"/>
+
+            Next, we’ll set up Spiderfoot. Here you can add API keys from a few different
+            sites so you’ll have a few tools being used for your Spiderfoot scans. If you
+            don’t already have accounts then go make some at SHODAN:
+            <a href="https://www.shodan.io/">https://www.shodan.io/</a>VirusTotal:
+            <a href="https://www.virustotal.com/gui/home/upload">https://www.virustotal.com/gui/home/upload</a>
+            and AlienVault OTX:
+            <a href="https://otx.alienvault.com/">https://otx.alienvault.com/</a>
+
+            Once you’ve created an account you can find the
+            PAI keys inside of your profile settings. I’ll show one of these as an example.
+            For AlienVault OTX you’ll see an OTX key in your settings, copy and paste
+            this. It will be a long text string. Go back to your T-Pot admin portal and click
+            on Spiderfoot. Go to settings, ctrl + f to search for alien. The option for
+            AlienVault OTX will show up. Copy and paste your OTX key where it shows a
+            space for the key and click enter. Now you’ve added a tool for AlienVault
+            OTX. Now you can click New Scan at the top left side and you’ll be taken to a
+            new page. Here you can enter the IP address you want to search and give it a
+            name. I named the scans by the name associated with the malicious IP address.
+
+            <img src="../../public/images/Honeypot/Honeypot-14.png"/>
+
+            The last step, if you choose to do so, is to download potential malware to
+            your VM that you found while searching through your T-Pot information. For
+            this step start by going back to the T-Pot web admin portal page, click on
+            Kibana, now in the list that appears click Cowrie. Here you’ll be taken to
+            another Elastic Dashboard. Click the pancake stack at the top left side of the page and click Discover.
+
+            <img src="../../public/images/Honeypot/Honeypot-15.png"/>
+
+            Here on the Discover page, you can type in different strings to search for
+            various information that may be helpful. To find some malware try typing in
+            wget in the search bar. As long as you’ve let your T-Pot run for a few hours
+            you should eventually get results for documents that show malicious IP
+            addresses using wget to download some malware. This step wasn’t relative to
+            the malicious IP that I searched for but if it relates to yours then you can
+            continue with this step. Copy the wget command with the file path in
+            whatever documents show up and paste the command in your Linux
+            command line. Once you’ve pasted the command and clicked enter then
+            disconnect the VM from the network.
+
+            <img src="../../public/images/Honeypot/Honeypot-16.png"/>
+
+            <b>
+                Remedies
+            </b>
+
+            If you run into any issues there are usually workarounds to fix something. 
+            Here I will share one issue I ran into after the whole installation process for
+            T-Pot. Spiderfoot would not work for me when I tried to navigate to the page
+            in the T-Pot admin portal. So my instructor from Fullstack Academy helped
+            me fix this after we tried many different areas to verify what the issue was.
+            This route was easier than going through the whole setup again.
+
+            Inside of your Linux command line cd to your home directory. Here we will
+            install spiderfoot: sudo apt install spiderfoot. Now cd to the spiderfoot
+            directory. Now run this command: pip3 install -r requirements.txt. Now run
+            this command: python3 ./sf.py -l 127.0.0.1:5001. Once you run this command
+            you will see the image below:
+
+            <img src="../../public/images/Honeypot/Honeypot-17.png"/>
+
+            Right-click on http://127.0.0.1:5001/ and open the link. Now you’ll be taken to
+            the Spiderfoot page. This was a fun small process to go through to be able to
+            still use Spiderfoot for the search process.
+
+            
+        </pre>
+    </body>

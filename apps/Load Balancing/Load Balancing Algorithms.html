@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" href="../../css/Font.css">
+        <link rel="stylesheet" href="css/code.css">
+    </head>
+    <body>
+
+        <pre>
+            
+            <h3>
+                Round Robin
+            </h3>
+
+            A very famous algorithm that is classified as static and deterministic. 
+            Its working principle is: Requests are distributed sequentially to the servers, 
+            as the load balancer has a list of existing servers, and upon each request, 
+            it directs the request to the servers in order, starting from the first of this list to the last, 
+            and then distributes the requests again from Beginning of the list.
+
+            <img src="../../public/images/Load Balancing/Load Balancing-5.jpg"/>
+
+            The figure shows the Round Robin load balancing algorithm, 
+            where four requests are received from the load balancer 4, 
+            which will be distributed in order, starting from the first in the list of available servers. 
+            The first request goes to the first server, the second request goes to the second server, 
+            and so on. At the end of the list, it is served from the beginning, so this algorithm is considered circular.
+
+            <h3>
+                Weighted Round Robin 
+            </h3>
+
+            The same algorithm as the previous one, but each link requires a weight that represents the maximum number
+            Of the requests that you can receive and serve based on the health of the server and monitoring
+            The dynamics of his condition.
+
+            <img src="../../public/images/Load Balancing/Load Balancing-6.jpg"/>
+
+            <h3>
+                Least connections
+            </h3>
+
+            This algorithm depends on the number of active connections on the server, 
+            so that requests are distributed to the server with the least number of active connections 
+            until it is equal to the second-lowest server in terms of number.
+            Active communications.
+
+            <img src="../../public/images/Load Balancing/Load Balancing-7.jpg"/>
+
+            The previous figure shows the service method in the Least Connection algorithm, 
+            where service starts from the server that has the least number of active connections, 
+            and requests continue to be directed to this server until the number of connections it has becomes 
+            equal to the second least number of active connections in the load balancer’s list.
+
+            
+        </pre>
+    </body>

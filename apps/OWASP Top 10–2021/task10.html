@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" href="../../css/Font.css">
+        <link rel="stylesheet" href="css/code.css">
+    </head>
+    <body>
+        <pre>
+
+            <h1>
+            Command Injection  
+            </h1>
+
+            In this module, we are going to infiltrate the cowsay using Linux commands.
+            TryHackMe was kind enough to give us a few basic commands:
+
+            <ul>
+            <li>whoami</li>
+            <li>id</li>
+            <li>ifconfig/ip addr</li>
+            <li>uname -a</li>
+            <li>ps -ef</li>
+            </ul>
+
+            But we will also be using a few others such as:
+
+            <ul>
+                <li>$(ls)</li>
+                <li>$(ls -la)</li>
+                <li>$(cat /etc/passwd)</li>
+                <li>$(cat /etc/os-release)</li>
+            </ul>
+
+            Now, let's get started. Head to the link given http://machine-ip:82/
+
+            <img src="../../public/images/OWASP Top 10–2021/task10-1"/>
+
+            This was my approach, you can do things you can do things your way. I
+            started with the command: $(whoami)
+
+            <img src="../../public/images/OWASP Top 10–2021/task10-2"/>
+
+            This is actually the answer to the third question: apache
+            Next, I used the command $(ls) to find any files in the root directory
+
+            <img src="../../public/images/OWASP Top 10–2021/task10-3"/>
+
+            The results are [css drpepper.txt index.php js]. This leads us to the answer to
+            the first question.
+
+            After that, it is time to find out the answer to the next question:
+
+            How many non-root/non-service/non-daemon users are there?
+
+            How do we determine that? We use the command $(cat /etc/passwd) to list
+            the users. Command broken down is [cat] or concatenate the file called
+            [/etc/passwd]
+
+            <img src="../../public/images/OWASP Top 10–2021/task10-4"/>
+
+            <img src="../../public/images/OWASP Top 10–2021/task10-5"/>
+
+            There are no non-root/non-service/non-daemon users (standard users).
+
+            You can also use the command [awk] with a few parameters:
+
+            $(awk -F: ‘$3 >= 1000’ /etc/passwd)
+
+            <img src="../../public/images/OWASP Top 10–2021/task10-5"/>
+
+            Without going in-depth into the command, there are no standard users
+            listed; making the answer “0”. The hint here is sbin, which is short for
+            system binary. sbin is meant for system admins and should not be accessible
+            by standard users. So, seeing /sbin/nologin is an indicator.
+
+            Going back to the question about the user name [apache] we can scroll to the
+            bottom and find the user’s [apache] shell [/sbin/nologin].
+
+            <img src="../../public/images/OWASP Top 10–2021/task10-6"/>
+
+            It is time to finish this task, by using a command to find the operating
+            system version. The command I used was [$(cat /etc/os-release)] the result
+            was straightforward: 3.16.0. You can also use [$(cat /etc/os-release)]
+
+            <img src="../../public/images/OWASP Top 10–2021/task10-7"/>
+
+            What strange text file is in the website’s root directory?
+
+            Answer Format: ********.***
+
+            <h2>
+                Answer: drpepper.txt
+            </h2>
+
+            How many non-root/non-service/non-daemon users are there?
+            Answer Format: *
+
+            <h2>
+                Answer: 0
+            </h2>
+
+            What is the user’s shell set as?
+
+            Answer Format: /****/*******
+
+            <h2>
+                Answer: apache
+            </h2>
+
+            What is the user’s shell set as?
+
+            Answer Format: /****/*******
+
+            <h2>
+                Answer: /sbin/nologin
+            </h2>
+
+            What version of Alpine Linux is running?
+            Hint: The version can be found in “/etc/alpine-release”.
+            Answer Format: *.**.*
+
+            <h2>
+                Answer: 3.16.0
+            </h2>
+
+
+        </pre>
+    </body>

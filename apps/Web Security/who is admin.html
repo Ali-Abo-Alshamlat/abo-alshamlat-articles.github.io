@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" href="../../css/Font.css">
+        <link rel="stylesheet" href="css/folderview.css">
+        <script src="js/folderview.js"></script>
+    </head>
+    <body>
+        <pre>
+            Your mission is to know who's the admin running this website by knowing his email.
+
+            <img src="../../public/images/Web Security/Who is admin/who is admin-1.png"/>
+
+            After open the challenge link we see here a home page and there are images and
+            everyone of them has ReadMore link
+
+            <img src="../../public/images/Web Security/Who is admin/who is admin-2.png"/>
+
+            So let’s click on that
+
+            <img src="../../public/images/Web Security/Who is admin/who is admin-3.png"/>
+
+            We see here there’s a parameter called “id” and it’s equal 2 this is image
+            number so its like that:
+
+            <a href="http://18.192.3.151/whoisadmin/shownews.php?id=2">http://18.192.3.151/whoisadmin/shownews.php?id=2</a>
+
+            let’s try to check if it’s vulnerable to SQL injection
+
+            <a href="http://18.192.3.151/whoisadmin/shownews.php?id='">http://18.192.3.151/whoisadmin/shownews.php?id='</a>
+
+            I put a quote and its gave me on burp suite error as we can see in the last image
+
+            <i>Error : HY000 1 unrecognized token: "'"</i>
+
+            <b>So it’s SQL injection</b>
+
+            Get the information from database by Sqlmap
+
+            We will type this command
+
+            <code>
+                root@ali:~# sqlmap -u http://18.192.3.151/whoisadmin/shownews.php?id=2 --dump-all
+
+            </code>
+
+            So as we can see we got information and the admin name is Ryan so we need the admin email…
+
+        </pre>
+
+        <h2><i>
+        ryan@secret.org
+        </i></h2>
+    </body>
+</html>

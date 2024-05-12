@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" href="../../css/Font.css">
+        <link rel="stylesheet" href="css/code.css">
+        <link rel="stylesheet" href="../../css/prism.css">
+        <script src="../../js/prism.js"></script>
+        <script src="js/copycode.js"></script>
+        <script type="module"
+            src="https://unpkg.com/@deckdeckgo/highlight-code@latest/dist/deckdeckgo-highlight-code/deckdeckgo-highlight-code.esm.js"></script>
+    </head>
+    <body>
+        <pre>
+
+            Difficulty : Easy
+
+            Room link: <a href="https://tryhackme.com/room/intermediatenmap">https://tryhackme.com/room/intermediatenmap</a>
+            
+            <h1>
+                Scanning and Enumeration
+            </h1>
+
+            <h1>
+                Nmap
+            </h1>
+
+            As the room’s title suggested, let’s run Nmap :
+
+            <div class="container">
+                <deckgo-highlight-code id="codeToCopy">
+                    <code slot="code">
+                        nmap -A -p- -vv -T4 IP_TARGET
+                    </code></deckgo-highlight-code>
+                <button id="copyButton">Copy</button>
+            </div>
+
+            <img src="../../public/images/Intermediate Nmap/Nmap-1.png"/>
+
+            <img src="../../public/images/Intermediate Nmap/Nmap-2.png"/>
+
+            <h1>
+                Open ports
+            </h1>
+
+            Ports 22 and 2222 are ssh ports, let’s check the 31377 port.
+
+            This port’s information returned by nmap seems really interesting, let’s analyze this.
+
+            We can quickly see user and password information :
+
+            <div class="container">
+                <deckgo-highlight-code id="codeToCopy">
+                    <code slot="code">
+                        user:pass
+                        ubuntu:Dafdas!!/str0ng
+                    </code></deckgo-highlight-code>
+                <button id="copyButton">Copy</button>
+            </div>
+
+            <h1>
+                Connecting with found credentials
+            </h1>
+
+            In the Nmap results, we have seen that SSH ports 22 and 2222 are open, 
+            try to connect to the machine with our freshly found credentials :
+
+            <div class="container">
+                <deckgo-highlight-code id="codeToCopy">
+                    <code slot="code">
+                        ssh ubuntu@IP_TARGET
+                    </code></deckgo-highlight-code>
+                <button id="copyButton">Copy</button>
+            </div>
+
+            Now we are connected !
+
+            <h1>
+                Get the Flag
+            </h1>
+
+            This is a CTF so let’s check in the directories around :
+
+            <div class="container">
+                <deckgo-highlight-code id="codeToCopy">
+                    <code slot="code">
+                        ls -al
+                    </code></deckgo-highlight-code>
+                <button id="copyButton">Copy</button>
+            </div>
+
+            <img src="../../public/images/Intermediate Nmap/Nmap-3.png"/>
+
+            Nothing great. Let’s see if there are other users.
+
+
+            <div class="container">
+                <deckgo-highlight-code id="codeToCopy">
+                    <code slot="code">
+                        cd ..
+                        ls -al
+                    </code></deckgo-highlight-code>
+                <button id="copyButton">Copy</button>
+            </div>
+
+            <img src="../../public/images/Intermediate Nmap/Nmap-4.png"/>
+
+            Let’s see if there is something for us in the user directory :
+
+            <div class="container">
+                <deckgo-highlight-code id="codeToCopy">
+                    <code slot="code">
+                        cd user
+                        ls -al
+                    </code></deckgo-highlight-code>
+                <button id="copyButton">Copy</button>
+            </div>
+
+            And…that’s it, our file containing the flag to owned this room !
+
+            <img src="../../public/images/Intermediate Nmap/Nmap-5.png"/>
+
+            This is a very easy room but it’s always a good thing to know 
+            how to use the basic tools and how to efficiently begin a pentesting.
+
+        </pre>
+    </body>

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" href="../../css/Font.css">
+        <link rel="stylesheet" href="css/code.css">
+    </head>
+    <body>
+        <pre>
+
+            <h1>
+            Security Logging and Monitoring Failures
+            </h1>
+
+            This is a fairly simple task. Download the log file and look at the data.
+
+            <img src="../../public/images/OWASP Top 10–2021/task21-1.png"/>
+
+            Notice the IP address that reoccurs in the span of 15 seconds? That is the
+            attack and the IP address is the answer to the first question. The next thing
+            to notice is the different attempts. Same IP address, different login names, in
+            15 seconds. This is the key to question two. It is a “Brute Force” attack.
+
+            <img src="../../public/images/OWASP Top 10–2021/task21-2.png"/>
+
+            What IP address is the attacker using? Answer Format: **.**.**.**
+
+            Hint: Check for common actions in a short sequence of time.
+
+            <h2>
+                Answer: 49.99.13.16
+            </h2>
+
+            What kind of attack is being carried out? Answer Format: ***** *****
+
+            Hint: What do you call trying combinations of usernames and passwords to
+            gain access to users’ accounts?
+
+            <h2>
+                Answer: Brute Force
+            </h2>
+        </pre>
+    </body>

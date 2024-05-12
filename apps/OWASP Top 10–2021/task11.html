@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" href="../../css/Font.css">
+        <link rel="stylesheet" href="css/code.css">
+    </head>
+    <body>
+        <pre>
+
+            <h1>
+            Insecure Design  
+            </h1>
+
+            Navigate to http://MACHINE_IP:85 and get into joseph’s account. This
+            application also has a design flaw in its password reset mechanism. Can you
+            figure out the weakness in the proposed design and how to abuse it?
+
+            Time to once again boot up the VM, open Firefox, and make your way to
+            http://MACHINE_IP:85. Once you get to the page you should notice that it is a
+            login page. 
+            We want to use the information that we have so far. THM
+            provided that the person’s name is ‘joseph”, but we don’t have a password
+            and we are not sure if that is his username. But there is a button that says “I
+            forgot my password…” Click it and continue on.
+
+            <img src="../../public/images/OWASP Top 10–2021/task11-1.png"/>
+
+            It will first ask the user name, “joseph” was supplied, so we are using that.
+            Now, the question’s hint asks which is the easiest to guess from the three
+            options. The first is an impossible task within the scope of this task and so is
+            the last question. So we are going to be guessing colors. ROYGBIV (Red,
+            Orange, Yellow, Green, Blue, Indigo, and Violet) is a safe place to start. I tried
+            starting at the spelling variation of Red and finally Bingo! at “green” (it is
+            case-sensitive). The system automatically generates a new temp password.
+            You should write it down and/or copy and paste it. Use the information to log in.
+
+            <img src="../../public/images/OWASP Top 10–2021/task11-2.png"/>
+
+            Explore the options and make your way to private.
+
+            <img src="../../public/images/OWASP Top 10–2021/task11-3.png"/>
+
+            Open Flag.txt to get the flag and to finish the task.
+
+            <img src="../../public/images/OWASP Top 10–2021/task11-4.png"/>
+
+            Try to reset joseph’s password. Keep in mind the method used by the site to
+            validate if you are indeed joseph.
+
+            No Answer Needed
+
+            What is the value of the flag in joseph’s account?
+
+            Hint: Is there any security question that can be easily guessed?
+            Answer Format: ***{*******************************}
+
+            <h2>
+                Answer: THM{Not_3ven_c4tz_c0uld_sav3_U!}
+            </h2>
+        </pre>
+    </body>

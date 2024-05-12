@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" href="../../css/Font.css">
+        <link rel="stylesheet" href="css/code.css">
+        <link rel="stylesheet" href="../../css/prism.css">
+        <script src="../../js/prism.js"></script>
+        <script src="js/copycode.js"></script>
+        <script type="module"
+            src="https://unpkg.com/@deckdeckgo/highlight-code@latest/dist/deckdeckgo-highlight-code/deckdeckgo-highlight-code.esm.js"></script>
+    </head>
+    <body>
+
+        <pre>
+
+            <b>
+                Host and Port Scanning
+            </b>
+
+            1.Find all TCP ports on your target. Submit the total number of 
+            found TCP ports as the answer.
+
+            <div class="container">
+                <deckgo-highlight-code id="codeToCopy">
+                    <code slot="code">
+                        nmap 10.129.2.49                                          
+                        Starting Nmap 7.94 ( <https://nmap.org> ) at 2023-06-24 19:53 +03
+                        Nmap scan report for 10.129.2.49
+                        Host is up (0.10s latency).
+                        Not shown: 993 closed tcp ports (reset)
+                        PORT      STATE SERVICE
+                        **22/tcp    open  ssh
+                        80/tcp    open  http
+                        110/tcp   open  pop3
+                        139/tcp   open  netbios-ssn
+                        143/tcp   open  imap
+                        445/tcp   open  microsoft-ds
+                        31337/tcp open  Elite**
+                        Nmap done: 1 IP address (1 host up) scanned in 2.02 seconds
+                </code></deckgo-highlight-code>
+                <button id="copyButton">Copy</button>
+            </div>
+
+            nmap: This is the actual command used to launch the Nmap software.
+            The IP address that we wish to check is10.129.2.429. By giving Nmap this
+            address, we are instructing it to scan that specific device because IP
+            addresses are used to uniquely identify devices on a network.
+
+            2.. Enumerate the hostname of your target and submit it as the answer. (case-sensitive)
+
+            <div class="container">
+                <deckgo-highlight-code id="codeToCopy">
+                    <code slot="code">
+                        nmap --script smb-os-discovery 10.129.2.49
+                        Starting Nmap 7.94 ( <https://nmap.org> ) at 2023-06-24 20:02 +03
+                        Nmap scan report for 10.129.2.49
+                        Host is up (0.11s latency).
+                        Not shown: 993 closed tcp ports (reset)
+                        PORT      STATE SERVICE
+                        22/tcp    open  ssh
+                        80/tcp    open  http
+                        110/tcp   open  pop3
+                        139/tcp   open  netbios-ssn
+                        143/tcp   open  imap
+                        445/tcp   open  microsoft-ds
+                        31337/tcp open  Elite
+                        Host script results:
+                        | smb-os-discovery: 
+                        |   OS: Windows 6.1 (Samba 4.3.11-Ubuntu)
+                        **|   Computer name: nix-nmap-default**
+                        |   NetBIOS computer name: NIX-NMAP-DEFAULT\\x00
+                        |   Domain name: \\x00
+                        |   FQDN: nix-nmap-default
+                        |_  System time: 2023-06-24T19:04:10+02:00
+                        Nmap done: 1 IP address (1 host up) scanned in 3.32 seconds
+
+                    </code></deckgo-highlight-code>
+                <button id="copyButton">Copy</button>
+            </div>
+
+            — script smb-os-discovery: In this instance, the smb-os-discovery script is
+            being used. A network protocol called SMB (Server Message Block) is used
+            for device sharing, printer sharing, and other types of communication.
+
+            <b>
+                Saving the Results
+            </b>
+
+            1.Perform a full TCP port scan on your target and create an HTML report.
+            Submit the number of the highest port as the answer.
+
+            <div class="container">
+                <deckgo-highlight-code id="codeToCopy">
+                    <code slot="code">
+                        nmap 10.129.2.49 -oA target    
+                        Starting Nmap 7.94 ( <https://nmap.org> ) at 2023-06-24 20:15 +03
+                        Nmap scan report for 10.129.2.49
+                        Host is up (0.11s latency).
+                        Not shown: 993 closed tcp ports (reset)
+                        PORT      STATE SERVICE
+                        22/tcp    open  ssh
+                        80/tcp    open  http
+                        110/tcp   open  pop3
+                        139/tcp   open  netbios-ssn
+                        143/tcp   open  imap
+                        445/tcp   open  microsoft-ds
+                        **31337/tcp open  Elite**
+                        Nmap done: 1 IP address (1 host up) scanned in 1.94 seconds
+                                                                                                
+                        ls
+                        target.gnmap  target.nmap  target.xml  tnet.gnmap  tnet.nmap  tnet.xml
+
+                    </code></deckgo-highlight-code>
+                    <button id="copyButton">Copy</button>
+                </div>
+
+                -oA target: These are command-line options passed to Nmap. -oA is used to
+                specify the output format and file name. In this case, target is the file name
+                prefix used for the output files generated by Nmap.
+
+                -oA: Specifies the output format and file name.
+                target: The file name prefix for the output files.
+
+                <b>
+                    Service Enumeration
+                </b>
+
+                1. Enumerate all ports and their services. One of the services contains the
+                flag you have to submit as the answer.
+
+                <div class="container">
+                    <deckgo-highlight-code id="codeToCopy">
+                        <code slot="code">
+                            nc -nv 10.129.2.49 31337
+                            (UNKNOWN) [10.129.2.49] 31337 (?) open
+                            220 HTB{pr0F7pDv3r510nb4nn3r}
+                        </code></deckgo-highlight-code>
+                        <button id="copyButton">Copy</button>
+                    </div>
+
+                    <b>
+                        Nmap Scripting Engine
+                    </b>
+
+                    Use NSE and its scripts to find the flag that one of the services contain
+                    and submit it as the answer.
+
+                    <div class="container">
+                        <deckgo-highlight-code id="codeToCopy">
+                            <code slot="code">
+                                nmap 10.129.210.124 -p 80 --script vuln   
+                                Starting Nmap 7.94 ( <https://nmap.org> ) at 2023-06-25 13:49 +03
+                                Nmap scan report for 10.129.210.124
+                                Host is up (0.22s latency).PORT   STATE SERVICE
+                                80/tcp open  http
+                                |_http-stored-xss: Couldn't find any stored XSS vulnerabilities.
+                                |_http-dombased-xss: Couldn't find any DOM based XSS.
+                                |_http-csrf: Couldn't find any CSRF vulnerabilities.
+                                | http-slowloris-check: 
+                                |   VULNERABLE:
+                                |   Slowloris DOS attack
+                                |     State: LIKELY VULNERABLE
+                                |     IDs:  CVE:CVE-2007-6750
+                                |       Slowloris tries to keep many connections to the target web server open and hold
+                                |       them open as long as possible.  It accomplishes this by opening connections to
+                                |       the target web server and sending a partial request. By doing so, it starves
+                                |       the http server's resources causing Denial Of Service.
+                                |       
+                                |     Disclosure date: 2009-09-17
+                                |     References:
+                                |       <https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2007-6750>
+                                |_      <http://ha.ckers.org/slowloris/>
+                                | http-enum: 
+                                |_  /robots.txt: Robots file
+                                Nmap done: 1 IP address (1 host up) scanned in 322.48 seconds
+                            </code></deckgo-highlight-code>
+                            <button id="copyButton">Copy</button>
+                        </div>
+
+                        <div class="container">
+                            <deckgo-highlight-code id="codeToCopy">
+                                <code slot="code">
+                                    curl <http://10.129.210.124/robots.txt>
+                                    User-agent: *
+                                    Allow: /
+                                    HTB{873nniuc71bu6usbs1i96as6dsv26}
+                                </code></deckgo-highlight-code>
+                            <button id="copyButton">Copy</button>
+                        </div>   
+
+
+                        <b>
+                            Firewall and IDS/IPS Evasion — Easy Lab
+                        </b>
+
+                        1. Our client wants to know if we can identify which operating system their
+                        provided machine is running on. Submit the OS name as the answer.
+
+                        <div class="container">
+                            <deckgo-highlight-code id="codeToCopy">
+                                <code slot="code">
+                                    nmap --script smb-os-discovery 10.129.2.80
+                                    Starting Nmap 7.94 ( <https://nmap.org> ) at 2023-06-25 14:14 +03
+                                    Nmap scan report for 10.129.2.80
+                                    Host is up (0.31s latency).
+                                    Not shown: 993 closed tcp ports (reset)
+                                    PORT      STATE SERVICE
+                                    22/tcp    open  ssh
+                                    80/tcp    open  http
+                                    110/tcp   open  pop3
+                                    139/tcp   open  netbios-ssn
+                                    143/tcp   open  imap
+                                    445/tcp   open  microsoft-ds
+                                    10001/tcp open  scp-config
+                                    Host script results:
+                                    | smb-os-discovery: 
+                                    |   OS: Windows 6.1 (Samba 4.3.11-Ubuntu)
+                                    |   Computer name: nix-nmap-easy
+                                    |   NetBIOS computer name: NIX-NMAP-EASY\\x00
+                                    |   Domain name: \\x00
+                                    |   FQDN: nix-nmap-easy
+                                    |_  System time: 2023-06-25T13:16:13+02:00
+                                    Nmap done: 1 IP address (1 host up) scanned in 4.15 seconds
+                                </code></deckgo-highlight-code>
+                                <button id="copyButton">Copy</button>
+                            </div>
+
+                            <b>
+                                Firewall and IDS/IPS Evasion — Medium Lab
+                            </b>
+
+                            After the configurations are transferred to the system, our client wants to
+                            know if it is possible to find out our target’s DNS server version. Submit
+                            the DNS server version of the target as the answer.
+
+                            <div class="container">
+                                <deckgo-highlight-code id="codeToCopy">
+                                    <code slot="code">
+                                        nmap -sSU -p 53 --script dns-nsid 10.129.45.239
+                                        Starting Nmap 7.94 ( <https://nmap.org> ) at 2023-06-27 12:04 +03
+                                        Nmap scan report for 10.129.45.239
+                                        Host is up (0.058s latency).
+                                        PORT   STATE    SERVICE
+                                        53/tcp filtered domain
+                                        53/udp open     domain
+                                        | dns-nsid: 
+                                        |_  bind.version: HTB{GoTtgUnyze9Psw4vGj*****}
+                                        Nmap done: 1 IP address (1 host up) scanned in 1.27 seconds
+                                    </code></deckgo-highlight-code>
+                                    <button id="copyButton">Copy</button>
+                                </div>
+
+                                <b>
+                                    Firewall and IDS/IPS Evasion — Hard Lab
+                                </b>
+
+                                Now our client wants to know if it is possible to find out the version of the
+                                running services. Identify the version of service our client was talking
+                                about and submit the flag as the answer.
+
+                                <div class="container">
+                                    <deckgo-highlight-code id="codeToCopy">
+                                        <code slot="code">
+                                            nc -nv -p 53 10.129.2.47 50000               
+                                            (UNKNOWN) [10.129.2.47] 50000 (?) open
+                                            220 HTB{kjnsdf2n982n1827eh76238s98d****}
+                                        </code></deckgo-highlight-code>
+                                        <button id="copyButton">Copy</button>
+                                    </div>
+
+                                    
+
+
+        </pre>
+    </body>

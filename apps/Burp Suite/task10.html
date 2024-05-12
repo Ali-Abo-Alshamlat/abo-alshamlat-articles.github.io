@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" href="../../css/Font.css">
+        <link rel="stylesheet" href="css/code.css">
+    </head>
+    <body>
+        <h1>
+            Proxying HTTPS
+        </h1>
+
+        <pre>
+            <h2>
+                Notes
+            </h2>
+
+            I proceeded to follow along with the lab and learn how CAs work in the
+            AttackBox VM, I found that there is a CA certificate already assigned to the
+            PortSwigger company called PortSwigger CA. I proceeded to delete or
+            distrust the certificate for the sake of recreating the issue of the missing CA
+            certificate and following along with this lab by trying to access a example
+            HTTPS URL address and adding the cert again.
+
+            <img src="../../public/images/Burp Suite/task10-1.png"/>
+
+            I attempted go to the https://google.com on Firefox with intercepting HTTPS
+            request to access the website with the Burp proxy enabled and got the
+            following a error telling us that the software Burp Proxy isn’t authorized to
+            secure the incoming HTTPS request.
+
+            <img src="../../public/images/Burp Suite/task10-2.png"/>
+
+            I went to http://burp/cert which downloaded a file called cacert.der as shown
+            in the screenshot below. I saved it to my root folder so it can be added to the
+            existing certificates
+
+            <img src="../../public/images/Burp Suite/task10-3.png"/>
+
+            I went into the settings options of the Firefox Browser by clicking on the
+            hamburger button (button icon that is three straight lines) and clicked on
+            Settings. Once in the settings menu, I used the search bar to find where the
+            options related to certificates and clicked on the View Certificates option.
+
+            <img src="../../public/images/Burp Suite/task10-4.png"/>
+
+            When we click View Certificates we see all the trusted CA certificates on our
+            browser. I clicked on the Import button as screenshotted below to add the
+            cacert.der file that was downloaded
+
+            <img src="../../public/images/Burp Suite/task10-5.png"/>
+
+            I navigated to where the file was downloaded and checkmarked the Trust this
+            CA to identify websites option and clicked the OK button to confirm that we
+            trust this new Certificate Authority.
+
+            <img src="../../public/images/Burp Suite/task10-6.png"/>
+
+            After we clicked OK, I attempted to try to intercept the HTTPS request with
+            Burp proxy to access the TLS enabled google.com and I was now able to
+            access google.com without any error.
+
+            <img src="../../public/images/Burp Suite/task10-7.png"/>
+
+            <h2>
+                Task 10 Questions
+            </h2>
+
+            <img src="../../public/images/Burp Suite/task10-8.png"/>
+        </pre>
+    </body>

@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" href="../../css/Font.css">
+        <link rel="stylesheet" href="css/code.css">
+    </head>
+    <body>
+        <pre>
+
+            <h1>
+            Data Integrity Failures
+            </h1>
+
+            Start your machine and attack box, then go to the site that was given
+            http://MACHINE_IP:8089/. Once you get to the screen, attempt to log into the
+            guest account with a random password.
+
+            <img src="../../public/images/OWASP Top 10–2021/task20-1.png"/>
+
+            You will receive a message telling you how to log in.
+
+            <img src="../../public/images/OWASP Top 10–2021/task20-2.png"/>
+
+            Once you log in it give you another message.
+
+            <img src="../../public/images/OWASP Top 10–2021/task20-3.png"/>
+
+            Press SHIFT+F12 to bring up the Developer Tools
+
+            <img src="../../public/images/OWASP Top 10–2021/task20-4.png"/>
+
+            Once you open the Dev Tools go to the Storage tab.
+
+            <img src="../../public/images/OWASP Top 10–2021/task20-5.png"/>
+
+            Open a word document. Copy the “Value” and paste the entire code to the
+            document. It should look like this:
+
+            <blockquote>
+                eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6Imd1ZXN0IiwiZXh
+                wIjoxNjg2MzIxNjI2fQ.L159cLhW34u6BYodwGSJwHftLw34J-zKQF9Xo1uYBVA
+            </blockquote>
+
+            Next, you need to use the head and payload. If you recall from the task the
+            header is up to the “.”, then the payload is up to the next “.”, don’t worry the
+            signature we won’t need it.
+
+            Go to https://appdevtools.com/base64-encoder-decoder and DECODE the
+            header and payload separately.
+
+            <img src="../../public/images/OWASP Top 10–2021/task20-6.png"/>
+
+            Copy and paste the decoded information and change the “HS256” to “none”
+            in the header, then change “guest” to “admin”. Now its time to encode this
+            information. Take the result of the two codes and combine them. It should
+            look like this:
+
+            <img src="../../public/images/OWASP Top 10–2021/task20-7.png"/>
+
+            Copy and paste the pair into the value of the cookie.
+
+            <img src="../../public/images/OWASP Top 10–2021/task20-8.png"/>
+
+            Once you insert the code into the cookie, refresh the page to get the flag.
+
+            <img src="../../public/images/OWASP Top 10–2021/task20-9.png"/>
+
+            Try logging into the application as guest. What is guest’s account password?
+            Answer Format: *****
+
+            Hint: Try logging in with the wrong credentials.
+
+            <h2>
+                Answer: guest
+            </h2>
+
+            If your login was successful, you should now have a JWT stored as a cookie in
+            your browser. Press F12 to bring out the Developer Tools.
+
+            Depending on your browser, you will be able to edit cookies from the
+            following tabs:
+
+            Firefox
+
+            <img src="../../public/images/OWASP Top 10–2021/task20-10.png"/>
+
+            Chrome
+
+            <img src="../../public/images/OWASP Top 10–2021/task20-11.png"/>
+
+            What is the name of the website’s cookie containing a JWT token? Answer
+            Format: ***-*******
+
+            <h2>
+                Answer: jwt-session
+            </h2>
+
+            Use the knowledge gained in this task to modify the JWT token so that the
+            application thinks you are the user “admin”.
+
+            <h2>
+                No Answer Needed
+            </h2>
+
+            What is the flag presented to the admin user?
+            Answer Format: ***{********************************}
+
+            <h2>
+                Answer: THM{Dont_take_cookies_from_strangers}
+            </h2>
+        </pre>
+    </body>

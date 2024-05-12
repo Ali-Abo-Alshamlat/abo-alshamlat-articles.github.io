@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" href="../../css/Font.css">
+        <link rel="stylesheet" href="css/folderview.css">
+        <script src="js/folderview.js"></script>
+    </head>
+    <body>
+        <pre>
+            Description
+            Request to the flag is forbidden due to wrong CSRF token … can you fix it and reveal the flag
+
+            Challenge Link: <a href="https://cybertalents.com/challenges/web/wrong-token">https://cybertalents.com/challenges/web/wrong-token</a>
+
+            <b>Solution</b>
+
+            <b>Exploration</b>
+
+            Opening the website we will find the following web page:
+
+            <img src="../../public/images/Web Security/Wrong Token/Wrong Token-1.png"/>
+
+            Reading the source code we will find that we need to make a JSON request containing some data:
+
+            <img src="../../public/images/Web Security/Wrong Token/Wrong Token-2.png"/>
+            
+
+            the request should look like the following:
+
+            <code>
+                {"action":  "view_flag",  "_token":  "asdjhDJhfkjdI"}
+            </code>
+
+            if you send this request you will receive this error:
+
+            <b>
+                <i>Failed Comparison ( incoming CSRF token != Session CSRF token )</i>
+            </b>
+
+            <b>Exploitation</b>
+
+            It seems that there is some sort of verification on this CSRF token, so we need to think of a way to bypass it.
+
+            First, I tried to remove the whole parameter but it didn’t work. I tried to remove the value only but still nothing.
+
+            Finally, I changed the data type from string to a boolean value equals True and it gives me the flag.
+
+            <img src="../../public/images/Web Security/Wrong Token/Wrong Token-3.jpg"/>
+        </pre>
+
+        <h2><i>
+        dkjfhsdkhfr43r34r3 
+        </i></h2>
+    </body>
+</html>

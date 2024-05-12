@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" href="../../css/Font.css">
+        <link rel="stylesheet" href="css/folderview.css">
+        <script src="js/folderview.js"></script>
+    </head>
+    <body>
+        <pre>
+            In this challenge we had trace the most recent online activity of a missing
+            person. We were given this <a href="https://bitly.com/3frKIAX">https://bitly.com/3frKIAX</a> link which led us to a
+            twitter account with protected tweets.
+
+            <img src="../../public/images/Open Source Cyber Intelligence/Missing Person/Missing Person-1.jpg"/>
+
+            From the new twitter url
+            <a href="https://twitter.com/rzsdw2iwug77eda/status/1394223468003176455">https://twitter.com/rzsdw2iwug77eda/status/1394223468003176455</a>
+
+            We can spot the username <a href="https://twitter.com/rzsdw2iwug77eda/status/1394223468003176455">rzsdw2iwug77eda</a>  . 
+            So immediately my mind went to <a href="https://github.com/sherlock-project/sherlock">sherlock</a> .
+
+            <img src="../../public/images/Open Source Cyber Intelligence/Missing Person/Missing Person-2.jpg"/>
+
+            We get a pastebin, with a date
+
+            <img src="../../public/images/Open Source Cyber Intelligence/Missing Person/Missing Person-3.png"/>
+
+            So apparently this is a red herring. This date wasn’t the user’s most recent activity.
+
+            After thinking for a while. I decided to try and trace when the bit.ly was
+            created. My teammate ended up uncovering the trick. By adding a ‘+’ to the end
+            of the bit.ly link you can trace when it was first created. The date here was the
+            solution
+
+            <img src="../..public/images/Open Source Cyber Intelligence/Missing Person/Missing Person-4.png"/>
+        </pre>
+        <h2><i>
+            flag{17-05-2021_09:29}
+        </i></h2>
+    </body>
+</html>

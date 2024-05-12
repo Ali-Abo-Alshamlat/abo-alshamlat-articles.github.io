@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" href="../../css/Font.css">
+        <link rel="stylesheet" href="css/code.css">
+    </head>
+    <body>
+        <pre>
+
+            <h1>
+            Security Misconfiguration 
+            </h1>
+
+            Time to boot up the machine again and head to the given website on Firefox.
+
+            <img src="../../public/images/OWASP Top 10–2021/task12-1.png"/>
+
+            Once you get there, input the following code:
+
+            <code>
+                import os; print(os.popen("ls -l").read())
+            </code>
+
+            <img src="../../public/images/OWASP Top 10–2021/task12-2.png"/>
+
+            <img src="../../public/images/OWASP Top 10–2021/task12-3.png"/>
+
+            Once we use the code it will return the database directory. The first question
+            asks for the file name for the database. The easiest way to figure out the
+            answer is to look for the file name ending in [.db].
+
+            The next question asks you to modify the code, so you can read the contents
+            of the app.py. It should look like this:
+
+            <code>
+                import os; print(os.popen("cat app.py").read())
+            </code>
+
+            <img src="../../public/images/OWASP Top 10–2021/task12-4.png"/>
+
+            Once we enter the altered code the site returns the flag:
+
+            <h2>
+                THM{Just_a_tiny_misconfiguration}
+            </h2>
+
+            Navigate to http://MACHINE_IP:86/console to access the Werkzeug console.
+
+            <h2>
+                No Answer Needed
+            </h2>
+        </pre>
+    </body>

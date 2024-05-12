@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" href="../../css/Font.css">
+        <link rel="stylesheet" href="css/code.css">
+        <link rel="stylesheet" href="../../css/prism.css">
+        <script src="../../js/prism.js"></script>
+        <script src="js/copycode.js"></script>
+        <script type="module"
+            src="https://unpkg.com/@deckdeckgo/highlight-code@latest/dist/deckdeckgo-highlight-code/deckdeckgo-highlight-code.esm.js"></script>
+    </head>
+    <body>
+
+        <pre>
+
+            <b>
+                Introduction
+            </b>
+
+            This article will examine how to approach the CTF task known as “Broken Authentication.” 
+            The goal is to use an application’s authentication mechanism’s flaws to get unauthorized access. 
+            To guarantee a thorough knowledge of the approaches employed, 
+            we will go through the procedure step-by-step while elaborating on the reasoning behind each decision made.
+
+            <b>
+                Step 1: Account Creation
+            </b>
+
+            <img src="../../public/images/Broken Authentication/Broken Authentication-1.png"/>
+
+            Before attempting to launch any brute force attacks, the first step is to create
+            a legitimate user account to avoid unnecessary delays.
+            
+            <img src="../../public/images/Broken Authentication/Broken Authentication-2.png"/>
+
+            The application requires specific password criteria: starting with a capital
+            letter, containing at least one special character ($, #, @), ending with a digit,
+            and being shorter than 20 characters. Additionally, it must contain at least one lowercase character.
+
+            <b>
+                Step 2: Initial Exploration
+            </b>
+
+            <img src="../../public/images/Broken Authentication/Broken Authentication-3.png"/>
+
+            Upon successful account creation, an attempt to send a message to the
+            “admin” user fails, indicating that the “admin” account does not exist.
+
+            <img src="../../public/images/Broken Authentication/Broken Authentication-4.png"/>
+
+            By using Burp Suite and analyzing the HTTP history, we discover the
+            existence of “guest” and “support” users.
+
+            <img src="../../public/images/Broken Authentication/Broken Authentication-5.png"/>
+
+            Armed with this knowledge, we proceed to attempt various combinations to
+            gain access to the application.
+
+            <img src="../../public/images/Broken Authentication/Broken Authentication-6.png"/>
+
+            As you see guest and support user's exist.
+
+            <img src="../../public/images/Broken Authentication/Broken Authentication-7.png"/>
+
+            <img src="../../public/images/Broken Authentication/Broken Authentication-8.png"/>
+
+            <b>
+                Step 3: Payload Testing
+            </b>
+
+            We try different usernames such as “us.support”, “support.us”, “ussupport”,
+            and “supportus,” but none of these usernames grant us access.
+
+            <img src="../../public/images/Broken Authentication/Broken Authentication-9.png"/>
+
+            After exploring other payload options like “country-codes.txt”, we
+            successfully identify that the “support.us” username allows us to proceed further.
+
+            <b>
+                Step 4: Password Cracking and Attack Type and Parameters
+            </b>
+
+            <img src="../../public/images/Broken Authentication/Broken Authentication-10.png"/>
+
+            Finding the associated password is the next step once we have the proper
+            username. Based on the previously given password criteria, we apply
+            specific filters to the rockyou.txt wordlist and use: being less than 20
+            characters in length, beginning with an uppercase letter, including at least one
+            special character ($, #, or @), ending with a digit, and including at least one lowercase character.
+
+            
+
+            <div class="container">
+                <deckgo-highlight-code id="codeToCopy">
+                    <code slot="code">
+                        wc -l  /usr/share/wordlists/rockyou.txt
+
+                        14344391 /usr/share/wordlists/rockyou.txt
+                                                                                                    
+                        sudo wc /usr/share/wordlists/rockyou.txt
+
+                        14344391  14442061 139921497 /usr/share/wordlists/rockyou.txt
+                                                                                                    
+                        sudo grep '^[[:upper:]]' /usr/share/wordlists/rockyou.txt |grep '[$@#]' |grep '[[:lower:]]' |grep -E '.{19,}[0-9]$'
+                        IuBitzik@_B3b3_&*%1990
+                        TrillPrincessMentality#1
+                        Sn@tch01159552520096
+                        Ninglove_ruk_skn@hotmail.comday170526180127
+                        Mustang#firebird1995
+                        Mi$un'sbrthd8iz12256
+                        Kaalyah,Jarren,Desmond,Terence#1
+                        KAEW_ST@hotmail.com20051986
+                        GG_AF_In_LOVE@hotmail.com0843771156
+                        Blessedbe1@endofritual2
+                        BisocaBuzau#20061985
+                        Barrackpore.1998@05,1411
+                        B@BYme&my$exiness123
+                        ABCDefgh@BungurBaru17
+                    </code></deckgo-highlight-code>
+                <button id="copyButton">Copy</button>
+            </div>
+
+            We proceed with a “Cluster bomb” attack using Burp Suite, with a maximum
+            concurrent request limit of 5 and a delay of 30000 milliseconds between
+            requests. This approach helps avoid excessive lockouts and improves the
+            chances of successfully cracking the password.
+
+            <b>
+                Step 5: Password Discovery
+            </b>
+
+            <img src="../../public/images/Broken Authentication/Broken Authentication-11.png"/>
+
+            After running the attack, we successfully identify the password
+            “Mustang#firebird1995” that meets all the specified criteria.
+
+            <img src="../../public/images/Broken Authentication/Broken Authentication-12.png"/>
+
+            <b>
+                Step 6: Decoding Cookies
+            </b>
+
+            <img src="../../public/images/Broken Authentication/Broken Authentication-13.png"/>
+
+            Upon logging in with the discovered credentials, we inspect the login
+            response to find a set of cookies encoded in Base64. Decoding these cookies
+            provides two key-value pairs: “434990c8a25d2be94863561ae98bd682:support”
+            and “af6172da1f353a9b9bbbaac3ac1ed4c4:support.us”.
+
+            <b>
+                Step 7: Encrypting and Obtaining Admin Credentials
+            </b>
+
+            To gain access as an admin, we encrypt these key-value pairs to reveal the
+            corresponding admin credentials: “admin.us =
+            5e2dea20edeb5de788969bd9d441aaa9” and “admin =
+            21232f297a57a5a743894a0e4a801fc3”. These credentials can be used to access
+            the admin account.
+
+            Encode base64:
+
+            <div class="container">
+                <deckgo-highlight-code id="codeToCopy">
+                    <code slot="code">
+                        NWUyZGVhMjBlZGViNWRlNzg4OTY5YmQ5ZDQ0MWFhYTk6MjEyMzJmMjk3YTU3YTVhNzQzODk0YTBlNGE4MDFmYzM=
+                </code></deckgo-highlight-code>
+                <button id="copyButton">Copy</button>
+            </div>
+
+            <img src="../../public/images/Broken Authentication/Broken Authentication-14.png"/>
+
+            
+
+        </pre>
+    </body>

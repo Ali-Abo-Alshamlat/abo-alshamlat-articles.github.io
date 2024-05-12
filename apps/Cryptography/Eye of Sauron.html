@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" href="../../css/Font.css">
+        <link rel="stylesheet" href="css/code.css">
+        <script src="js/folderview.js"></script>
+    </head>
+    <body>
+        
+            Can you find the key to pass?
+
+            <a href="
+            https://s3-eu-west-1.amazonaws.com/talentchallenges/Reverse/Inkie.zip">
+            https://s3-eu-west-1.amazonaws.com/talentchallenges/Reverse/Inkie.zip</a>
+
+            In this challenge we are provided with a .NET application which takes input
+            from the user and if the input is correct, we shall pass else we will not!
+
+            On running the executable we can see it’s graphical interface!
+
+            <img src="../../public/images/Malware Reverse Engineering/Eye of Sauron/Eye of Sauron-1.png"/>
+
+            As we do not have the code. We need to decompile this executable in order to
+            find the inner working of this program. At first i opened up this executable
+            in dotPeek.
+
+            <img src="../../public/images/Malware Reverse Engineering/Eye of Sauron/Eye of Sauron-2.png"/>
+
+            On the left side we can see different base types and at the end “txtPass”. This
+            clearly shows that the user input will be checked somewhere in the program.
+            So this was the time to look a little closer on the code.
+
+            I found the part of the function which will check for the user input and will
+            pass him if provided input with match the defined one.
+
+            Reversing the logic of this function we conclude that!
+
+            1. Label 2 + Label 3 + Label 4 + Label 5.
+            2. Reverse the strings after combining all 5.
+
+            <img src="../../public/images/Malware Reverse Engineering/Eye of Sauron/Eye of Sauron-3.png"/>
+
+            The logic seems to be quite simple. At first the portions of the input will be
+            taken and a single token will be made. Once done, the order of that token
+            will be reversed to get the right token!
+
+            At this moment, we need to find those tokens!
+
+            After looking on the program, i found that values were assigned to the
+            variables made and these values were being concatenated and then
+            reversed.
+
+            <img src="../../public/images/Malware Reverse Engineering/Eye of Sauron/Eye of Sauron-4.png"/>
+
+            Now, as we have the parts of tokens. Its time to combine them and they will
+            look like this.
+
+            <blockquote class="mk">
+                <i>
+                    d0248b4e + 47886655 + 83f05688 + c154b6ea
+                </i>
+            </blockquote>
+
+            But, when the form will be loaded the text for the label4 will be changed and
+            we can conclude that with this private function.
+
+            <img src="../../public/images/Malware Reverse Engineering/Eye of Sauron/Eye of Sauron-5.png"/>
+
+            The previously value for label4 is 83f05688 and the new one is 83f05689. So,
+            we need to change this value.
+
+            Also the value for label3 is being changed as soon as the button is clicked!
+
+            <img src="../../public/images/Malware Reverse Engineering/Eye of Sauron/Eye of Sauron-6.png"/>
+
+            The previously value for label3 is 47886655 and the new one is 47996655. 
+            So, we need to change this value as well and the token will be!
+
+            <blockquote class="mk">
+                <i>
+                    d0248b4e + 47996655 + 83f05689 + c154b6ea
+
+                    d0248b4e4799665583f05689c154b6ea
+                </i>
+            </blockquote>
+
+            Now, we have this token, in order words the hash as it looks like. 
+            All we need now is to get it reversed and that can be done easily 
+            via “rev” command on Linux!
+
+            <img src="../../public/images/Malware Reverse Engineering/Eye of Sauron/Eye of Sauron-7.png"/>
+
+            <blockquote class="mk">
+                <i>
+                    ae6b451c98650f3855669974e4b8420d
+                </i>
+            </blockquote>
+
+            We are all done. Let’s try this on the form!
+
+            <img src="../../public/images/Malware Reverse Engineering/Eye of Sauron/Eye of Sauron-8.png"/>
+
+        
+    </body>
+</html>

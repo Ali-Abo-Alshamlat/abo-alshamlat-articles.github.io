@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" href="../../css/Font.css">
+        <link rel="stylesheet" href="css/code.css">
+        <script src="js/folderview.js"></script>
+    </head>
+    <body>
+        <p>the flag is the parameter of the function in the following format (“FLAG{0_%X_0}” % parameter)</p>
+        <p>The simplest way to check the file before using any tool is a simple text editor, here’s the output :</p>
+        <img src="../../public/images/CyberSecurity Beginner Career/bronze ASM/bronze ASM-1.png"/>
+        <p>
+            Honestly It’s been a long time since I studied Assembly, 
+            I did some research to understand what every instruction does, and here’s what I found :
+        </p>
+        <img src="../../public/images/CyberSecurity Beginner Career/bronze ASM/bronze ASM-2.png"/>
+        <p>
+            In other words, the function means to take the local variable stored in 
+            rbp-4 multiply it by 8 (left shift by 3) and compare the result with 5744.
+        </p>
+        <p>
+            Yes ! The parameter that we are looking for is the value stored 
+            in rbp-4, but how we are supposed to know it ? Simply suppose 
+            that <b>parameter*8=5744</b>, that makes the <b>parameter=718</b>.
+        </p>
+        <p>
+            Still have the message wrong submission popping up ? Easy, 
+            just have another look in the challenge description, 
+            it indicates that the format should be : <b>FLAG{0_%X_0}, %X</b> refers to Hexadecimal; 
+            As you can already guess the flag
+        </p>
+        <h2><i>
+        FLAG{0_2CE_0} 
+        </i></h2>
+    </body>
+</html>
