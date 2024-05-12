@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Kali</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="shortcut icon" href="/assets/512.png" type="image/x-icon">
+        <meta name="description" content="ubuntu, online, tour, demo, live, github">
+        <link rel="stylesheet" href="css/main.css">
+        <script src="main.js"></script>
+        <link rel="stylesheet" href="css/panel.css">
+        <script src="js/panel.js" defer></script>
+        <link rel="stylesheet" href="css/Font.css">
+        <script src="js/window.js"></script>
+        <link rel="preload" href="css/window.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <link rel="preload" href="css/dock.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <script src="js/app-menu.js" defer></script>
+        <link rel="preload" href="css/app-menu.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <link rel="stylesheet" href="css/desktop.css">
+        <link rel="preload" href="css/brightness.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <script src="js/activities.js" defer></script>
+        <link rel="preload" href="css/activities.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <script src="js/localStorage.js" defer></script>
+        <script src="js/workspace.js" defer></script>
+        <link rel="preload" href="css/workspace.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <script src="js/dialogs.js"></script>
+        <link rel="preload" href="css/dialog.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <script src="js/notify.js"></script>
+        <link rel="preload" href="css/notify.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <script src="js/app-manager.js" defer></script>
+        <!-- PWA support -->
+        <link rel="manifest" href="manifest.webmanifest">
+        <script src="js/pwa.js"></script>
+        <!-- PWA support for iOS -->
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-status-bar-style" content="550055">
+        <meta name="apple-mobile-web-app-title" content="Ubuntu">
+        <meta name="msapplication-TileImage" content="assets/144.png">
+        <meta name="msapplication-TileColor" content="#550055">
+        <link rel="apple-touch-icon" href="assets/144.png">
+    </head>
+    <body oncontextmenu="return false;">
+        <img src="" draggable="false" class="wallpaper" />
+        <div class="panel">
+            <div class="panel-activities" onclick="showHideActivities();">Activities</div>
+            <div class="panel-active-app">
+                <img draggable="false" src="icons/null.svg" class="panel-active-app-icon"/>
+                <div class="panel-active-app-name"></div>
+            </div>
+            <div class="panel-notification" onclick="showNotificationAbout();"></div>
+            <div class="panel-status" onclick="showStatusAbout();">
+                <img class="panel-status-icon" draggable="false" alt="Wi-Fi" id="wifi" src="icons/Suru/Suru/scalable/status/network-wireless-connected-symbolic.svg"/>
+                <img class="panel-status-icon" draggable="false" alt="Sound" id="sound" src="icons/Suru/Suru/scalable/status/audio-volume-high-symbolic.svg"/>
+                <img class="panel-status-icon" draggable="false" alt="Battery" id="battery" src="icons/Suru/Suru/scalable/status/battery-level-100-charging-symbolic.svg"/>
+            </div>
+            <iframe class="status-about" src="status.html" hidden></iframe>
+            <iframe class="notification-about" src="notification.html" hidden></iframe>
+        </div>
+        <div class="desktop" onclick="changePanelActiveAppIcon('icons/null.svg','');">
+            <div class="desktop-item" ondblclick="start_app('Web Security');">
+                <img class="img-item" draggable="false" loading="lazy" alt="Home" class="item-icon" src="icons/Suru/Suru/48x48/places/user-home.png"/><br>
+                Web
+                Security
+            </div>
+            <div class="desktop-item" ondblclick="start_app('Malware Reverse Engineering');">
+                <img class="img-item" draggable="false" loading="lazy" alt="Home" class="item-icon" src="icons/Suru/Suru/48x48/places/user-home.png"/><br>
+                Malware Reverse Engineering
+            </div>
+            <div class="desktop-item" ondblclick="start_app('general');">
+                <img class="img-item" draggable="false" loading="lazy" alt="Home" class="item-icon" src="icons/Suru/Suru/48x48/places/user-home.png"/><br>
+                General 
+                Information
+            </div>
+            <div class="desktop-item" ondblclick="start_app('Cryptography');">
+                <img class="img-item" draggable="false" loading="lazy" alt="Home" class="item-icon" src="icons/Suru/Suru/48x48/places/user-home.png"/><br>
+                Cryptography
+            </div>
+            <div class="desktop-item" ondblclick="start_app('Digital Forensics');">
+                <img class="img-item" draggable="false" loading="lazy" alt="Home" class="item-icon" src="icons/Suru/Suru/48x48/places/user-home.png"/><br>
+                Digital Forensics
+            </div>
+            <div class="desktop-item" ondblclick="start_app('Network Security');">
+                <img class="img-item" draggable="false" loading="lazy" alt="Home" class="item-icon" src="icons/Suru/Suru/48x48/places/user-home.png"/><br>
+                Network Security
+            </div>
+            <div class="desktop-item" ondblclick="start_app('Open Source Cyber Intelligence');">
+                <img class="img-item" draggable="false" loading="lazy" alt="Home" class="item-icon" src="icons/Suru/Suru/48x48/places/user-home.png"/><br>
+                Open Source Cyber Intelligence
+            </div>
+            <div class="desktop-item" ondblclick="start_app('Machines');">
+                <img class="img-item" draggable="false" loading="lazy" alt="Home" class="item-icon" src="icons/Suru/Suru/48x48/places/user-home.png"/><br>
+                Machines
+            </div>
+            <div class="desktop-item" ondblclick="start_app('Bash');">
+                <img class="img-item" draggable="false" loading="lazy" alt="Home" class="item-icon" src="icons/Suru/Suru/48x48/places/user-home.png"/><br>
+                Bash
+            </div>
+            <div class="desktop-item" ondblclick="start_app('Mobile Security');">
+                <img class="img-item" draggable="false" loading="lazy" alt="Home" class="item-icon" src="icons/Suru/Suru/48x48/places/user-home.png"/><br>
+                Mobile Security
+            </div>
+            <div class="desktop-item" ondblclick="start_app('CyberSecurity Beginner Career');">
+                <img class="img-item" draggable="false" loading="lazy" alt="Home" class="item-icon" src="icons/Suru/Suru/48x48/places/user-home.png"/><br>
+                CyberSecurity
+                Beginner
+                Career
+            </div><div class="desktop-item" ondblclick="start_app('BlueTeam Scholarship CTF Writeups');">
+                <img class="img-item" draggable="false" loading="lazy" alt="Home" class="item-icon" src="icons/Suru/Suru/48x48/places/user-home.png"/><br>
+                BlueTeam Scholarship CTF Writeups
+            </div><div class="desktop-item" ondblclick="start_app('Ramadan Nights');">
+                <img class="img-item" draggable="false" loading="lazy" alt="Home" class="item-icon" src="icons/Suru/Suru/48x48/places/user-home.png"/><br>
+                Ramadan Nights
+            </div><div class="desktop-item" ondblclick="start_app('Snort');">
+                <img class="img-item" draggable="false" loading="lazy" alt="Home" class="item-icon" src="icons/Suru/Suru/48x48/places/tryhackme.png"/><br>
+                Snort
+            </div><div class="desktop-item" ondblclick="start_app('Burp Suite');">
+                <img class="img-item" draggable="false" loading="lazy" alt="Home" class="item-icon" src="icons/Suru/Suru/48x48/places/tryhackme.png"/><br>
+                Burp Suite
+            </div><div class="desktop-item" ondblclick="start_app('Xss');">
+                <img class="img-item" draggable="false" loading="lazy" alt="Home" class="item-icon" src="icons/Suru/Suru/48x48/places/tryhackme.png"/><br>
+                Xss
+            </div><div class="desktop-item" ondblclick="start_app('Wifi Hacking 101');">
+                <img class="img-item" draggable="false" loading="lazy" alt="Home" class="item-icon" src="icons/Suru/Suru/48x48/places/tryhackme.png"/><br>
+                Wifi Hacking 101
+            </div><div class="desktop-item" ondblclick="start_app('Android Malware Analysis');">
+                <img class="img-item" draggable="false" loading="lazy" alt="Home" class="item-icon" src="icons/Suru/Suru/48x48/places/tryhackme.png"/><br>
+                Android Malware Analysis
+            </div><div class="desktop-item" ondblclick="start_app('OWASP Top 10–2021');">
+                <img class="img-item" draggable="false" loading="lazy" alt="Home" class="item-icon" src="icons/Suru/Suru/48x48/places/tryhackme.png"/><br>
+                OWASP Top 10–2021
+            </div><div class="desktop-item" ondblclick="start_app('Confidential');">
+                <img class="img-item" draggable="false" loading="lazy" alt="Home" class="item-icon" src="icons/Suru/Suru/48x48/places/tryhackme.png"/><br>
+                Confidential
+            </div><div class="desktop-item" ondblclick="start_app('Benign');">
+                <img class="img-item" draggable="false" loading="lazy" alt="Home" class="item-icon" src="icons/Suru/Suru/48x48/places/tryhackme.png"/><br>
+                Benign
+            </div><div class="desktop-item" ondblclick="start_app('Intermediate Nmap');">
+                <img class="img-item" draggable="false" loading="lazy" alt="Home" class="item-icon" src="icons/Suru/Suru/48x48/places/tryhackme.png"/><br>
+                Intermediate Nmap
+            </div><div class="desktop-item" ondblclick="start_app('Creative');">
+                <img class="img-item" draggable="false" loading="lazy" alt="Home" class="item-icon" src="icons/Suru/Suru/48x48/places/tryhackme.png"/><br>
+                Creative
+            </div><div class="desktop-item" ondblclick="start_app('Wireshark');">
+                <img class="img-item" draggable="false" loading="lazy" alt="Home" class="item-icon" src="icons/Suru/Suru/48x48/places/tryhackme.png"/><br>
+                Wireshark
+            </div><div class="desktop-item" ondblclick="start_app('Intro to Endpoint');">
+                <img class="img-item" draggable="false" loading="lazy" alt="Home" class="item-icon" src="icons/Suru/Suru/48x48/places/tryhackme.png"/><br>
+                Intro to Endpoint
+            </div><div class="desktop-item" ondblclick="start_app('Disk Analysis & Autopsy');">
+                <img class="img-item" draggable="false" loading="lazy" alt="Home" class="item-icon" src="icons/Suru/Suru/48x48/places/tryhackme.png"/><br>
+                Disk Analysis & Autopsy
+            </div><div class="desktop-item" ondblclick="start_app('Broken Authentication');">
+                <img class="img-item" draggable="false" loading="lazy" alt="Home" class="item-icon" src="icons/Suru/Suru/48x48/places/box.png"/><br>
+                Broken Authentication
+            </div><div class="desktop-item" ondblclick="start_app('Attacking Web Applications with Ffuf');">
+                <img class="img-item" draggable="false" loading="lazy" alt="Home" class="item-icon" src="icons/Suru/Suru/48x48/places/box.png"/><br>
+                Attacking Web Applications with Ffuf
+            </div><div class="desktop-item" ondblclick="start_app('Enumeration with Nmap');">
+                <img class="img-item" draggable="false" loading="lazy" alt="Home" class="item-icon" src="icons/Suru/Suru/48x48/places/box.png"/><br>
+                Enumeration with Nmap
+            </div><div class="desktop-item" ondblclick="start_app('Logger');">
+                <img class="img-item" draggable="false" loading="lazy" alt="Home" class="item-icon" src="icons/Suru/Suru/48x48/places/box.png"/><br>
+                Logger
+            </div><div class="desktop-item" ondblclick="start_app('Authority');">
+                <img class="img-item" draggable="false" loading="lazy" alt="Home" class="item-icon" src="icons/Suru/Suru/48x48/places/box.png"/><br>
+                Authority
+            </div><div class="desktop-item" ondblclick="start_app('Responder');">
+                <img class="img-item" draggable="false" loading="lazy" alt="Home" class="item-icon" src="icons/Suru/Suru/48x48/places/box.png"/><br>
+                Responder
+            </div><div class="desktop-item" ondblclick="start_app('Usage');">
+                <img class="img-item" draggable="false" loading="lazy" alt="Home" class="item-icon" src="icons/Suru/Suru/48x48/places/box.png"/><br>
+                Usage
+            </div><div class="desktop-item" ondblclick="start_app('Monitored');">
+                <img class="img-item" draggable="false" loading="lazy" alt="Home" class="item-icon" src="icons/Suru/Suru/48x48/places/box.png"/><br>
+                Monitored
+            </div><div class="desktop-item" ondblclick="start_app('Codify');">
+                <img class="img-item" draggable="false" loading="lazy" alt="Home" class="item-icon" src="icons/Suru/Suru/48x48/places/box.png"/><br>
+                Codify
+            </div><div class="desktop-item" ondblclick="start_app('Archetype');">
+                <img class="img-item" draggable="false" loading="lazy" alt="Home" class="item-icon" src="icons/Suru/Suru/48x48/places/box.png"/><br>
+                Archetype
+            </div><div class="desktop-item" ondblclick="start_app('Bizness');">
+                <img class="img-item" draggable="false" loading="lazy" alt="Home" class="item-icon" src="icons/Suru/Suru/48x48/places/box.png"/><br>
+                Bizness
+            </div><div class="desktop-item" ondblclick="start_app('Perfection');">
+                <img class="img-item" draggable="false" loading="lazy" alt="Home" class="item-icon" src="icons/Suru/Suru/48x48/places/box.png"/><br>
+                Perfection
+            </div><div class="desktop-item" ondblclick="start_app('Napper');">
+                <img class="img-item" draggable="false" loading="lazy" alt="Home" class="item-icon" src="icons/Suru/Suru/48x48/places/box.png"/><br>
+                Napper
+            </div><div class="desktop-item" ondblclick="start_app('Load Balancing');">
+                <img class="img-item" draggable="false" loading="lazy" alt="Home" class="item-icon" src="icons/Suru/Suru/48x48/places/load balancing.png"/><br>
+                Load Balancing
+            </div><div class="desktop-item" ondblclick="start_app('Honeypot');">
+                <img class="img-item" draggable="false" loading="lazy" alt="Home" class="item-icon" src="icons/Suru/Suru/48x48/places/honeypot.png"/><br>
+                Honeypot
+            </div><div class="desktop-item" ondblclick="start_app('Network Security-1');">
+                <img class="img-item" draggable="false" loading="lazy" alt="Home" class="item-icon" src="icons/Suru/Suru/48x48/places/network-security.png"/><br>
+                Network Security
+            </div><div class="desktop-item" ondblclick="start_app('cisco');">
+                <img class="img-item" draggable="false" loading="lazy" alt="Home" class="item-icon" src="icons/Suru/Suru/48x48/places/cisco.png"/><br>
+                cisco
+            </div><div class="desktop-item" ondblclick="start_app('security operation system');">
+                <img class="img-item" draggable="false" loading="lazy" alt="Home" class="item-icon" src="icons/Suru/Suru/48x48/places/security operation system.png"/><br>
+                Security Operation System
+            </div><div class="desktop-item" ondblclick="start_app('Web Application Attacks');">
+                <img class="img-item" draggable="false" loading="lazy" alt="Home" class="item-icon" src="icons/Suru/Suru/48x48/places/Web Application Attacks.png"/><br>
+                Web Application Attacks
+            </div><div class="desktop-item" ondblclick="start_app('Deployment_and_monitoring');">
+                <img class="img-item" draggable="false" loading="lazy" alt="Home" class="item-icon" src="icons/Suru/Suru/48x48/places/Deployment_and_monitoring.png"/><br>
+                Deployment and Monitoring
+            </div><div class="desktop-item" ondblclick="start_app('books');">
+                <img class="img-item" draggable="false" loading="lazy" alt="Home" class="item-icon" src="icons/Suru/Suru/48x48/places/books.png"/><br>
+                books
+            </div><div class="desktop-item" ondblclick="start_app('gnome-control-center');">
+                <img class="img-item" draggable="false" loading="lazy" alt="Home" class="item-icon" src="icons/Suru/Suru/48x48/places/settings.svg""/><br>
+                Settings
+            </div><div class="desktop-item" ondblclick="start_app('gnome-terminal');">
+                <img class="img-item" draggable="false" loading="lazy" alt="Home" class="item-icon" src="icons/Suru/Suru/48x48/places/qterminal.svg"/><br>
+                Terminal
+            </div><div class="desktop-item" ondblclick="start_app('Packet Tracer');">
+                <img class="img-item" draggable="false" loading="lazy" alt="Home" class="item-icon" src="icons/Suru/Suru/48x48/places/packet tracer.png"/><br>
+                Packet Tracer
+            </div><div class="desktop-item" ondblclick="start_app('vscode');">
+                <img class="img-item" draggable="false" loading="lazy" alt="Home" class="item-icon" src="icons/Suru/Suru/48x48/places/vscode.png"/><br>
+                vscode
+            </div><div class="desktop-item" ondblclick="start_app('about');">
+                <img class="img-item" draggable="false" loading="lazy" alt="Home" class="item-icon" src="icons/Suru/Suru/48x48/places/pic-4.png"/><br>
+                about
+            </div>
+        
+        <div class="dock">
+            <div id="dock"></div>
+            <div class="dock-app-container">
+                <img class="dock-app" loading="lazy" alt="terminal" onclick="start_app('gnome-terminal');" draggable="false" src="icons/Suru/Suru/48x48/places/qterminal.svg">  
+            </div>
+            <div class="dock-app-container">
+                <img class="dock-app" loading="lazy" alt="File Manager" onclick="start_app('nautilus','open=filemanager');" draggable="false" src="icons/Suru/Suru/48x48/places/user-home.svg">  
+            </div>
+            <div class="dock-app-container">
+                <img class="dock-app" loading="lazy" alt="vscode" onclick="start_app('vscode');" draggable="false" src="icons/Suru/Suru/48x48/places/vscode.png">
+            </div>
+            <div class="dock-app-container">
+                <img class="dock-app" loading="lazy" alt="About" onclick="start_app('about');" draggable="false" src="icons/Suru/Suru/48x48/places/pic-4.png">
+            </div>
+            <div class="dock-app-container">
+                <img class="dock-app" loading="lazy" alt="settings" onclick="start_app('gnome-control-center');" draggable="false" src="icons/Suru/Suru/48x48/places/settings.svg">
+            </div>
+            <div class="dock-app-container">
+                <img class="dock-app" loading="lazy" alt="Trash" onclick="start_app('nautilus','open=Trash');" draggable="false" src="icons/Suru/Suru/48x48/places/user-trash-full.svg">
+            </div>
+            <div class="dock-app-menu" onmousewheel="changeWorkspace();">
+                <img onclick="showHideAppMenu();" loading="lazy" alt="App Menu" draggable="false" src="icons/Suru/Suru/scalable/categories/view-app-grid-symbolic.svg" class="dock-app-menu-icon"/>
+            </div>
+        </div>
+        <div class="workspaces" hidden><div class="workspace-now"></div></div>
+        <div class="app-menu" style="visibility: hidden;">
+            <div class="menu-searchbox"><img src="icons/Suru/Suru/scalable/actions/search-symbolic.svg" draggable="false" /><input type="text" placeholder="Write to search" onfocus="this.parentNode.style.border='2px #f7b33f solid'; this.parentNode.style.transform='translate(-1px,-1px)';"  onfocusout="this.parentNode.style.border=''; this.parentNode.style.transform='';this.value='';"/></div>
+            <img onclick="showHideAppMenu();" class="app-menu-container-wallpaper" />
+            <div class="app-menu-container"></div>
+        </div>
+        <div class="activities" style="visibility: hidden;">
+            <div class="menu-searchbox"><img src="icons/Suru/Suru/scalable/actions/search-symbolic.svg" draggable="false" /><input type="text" placeholder="Write to search" onfocus="this.parentNode.style.border='2px #f7b33f solid'; this.parentNode.style.transform='translate(-1px,-1px)';"  onfocusout="this.parentNode.style.border=''; this.parentNode.style.transform='';this.value='';"/></div>
+            <img onclick="showHideActivities();" class="activities-wallpaper" />
+        </div>
+        <div class="context-menu-container" onclick="showHideContextMenu();" hidden>
+            <iframe class="context-menu" src="contextmenu.html"></iframe>
+        </div>
+        <div id="dialog-box-container" hidden>
+            <div id="dialog-box">
+                <div id="dialog-title"></div>
+                <div id="dialog-text"></div>
+                <div id="dialog-option-1" onclick="document.querySelector('#dialog-box-container').hidden=true;new Function(__dialog_opt1)();">Cancel</div>
+                <div id="dialog-option-2" onclick="document.querySelector('#dialog-box-container').hidden=true;new Function(__dialog_opt2)();">OK</div>
+            </div>
+        </div>
+        <div id="notify-box" onclick="if(window.event.target.id!='notify-close'){new Function(__notify_action)();};document.querySelector('#notify-box').hidden=true;" hidden>
+            <div id="notify-title">Title</div>
+            <div id="notify-text">Text</div>
+            <img id="notify-close" src="icons/Suru/Suru/scalable/ui/window-close-symbolic.png"/>
+        </div>
+        
+        <div class="brightness" id="brightness"></div>
+    </body>
+</html>
