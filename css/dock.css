@@ -8,7 +8,7 @@
     overflow-y: auto;
     overflow-x: hidden;
     border-radius: 0px 30px 30px 0px;
-    --app-cursor-default: url("../../../icons/Suru/Suru/48x48/devices/normal-select.svg");
+    --app-cursor-default: url("../icons/Suru/Suru/48x48/devices/normal-select.svg");
     cursor: var(--app-cursor-default),auto;
 }
 

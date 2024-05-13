@@ -16,7 +16,7 @@ body{
     grid-template-rows: auto auto 5px auto auto auto 5px auto auto auto;
     grid-template-columns: 30px auto;
     justify-content: center;
-    --app-cursor-default: url("../../../icons/Suru/Suru/48x48/devices/normal-select.svg");
+    --app-cursor-default: url("../icons/Suru/Suru/48x48/devices/normal-select.svg");
     cursor: var(--app-cursor-default),auto;
 }
 
