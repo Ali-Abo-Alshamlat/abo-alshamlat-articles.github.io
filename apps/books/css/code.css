@@ -53,7 +53,8 @@ blockquote{
 }
 
 
-.portfolio{
-display: flex;
+.book{
+height: 100%;
 width: 100%;
+position: absolute;
 }
